@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class ButtonTrigger : MonoBehaviour
 {
     private Button button;
-    public string message;
+    public GameSystem.GameMessage message;
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(() => { Debug.Log(message); });
+        button.onClick.AddListener(() => { GameSystem.TheMatrix.SendGameMessage(message); });
     }
 }

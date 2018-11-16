@@ -24,6 +24,8 @@ namespace GameSystem
                     return Input.GetKeyUp(Setting.slideKeyCode);
                 case InputCode.Func:
                     return Input.GetKey(Setting.funcKeyCode);
+                case InputCode.Drop:
+                    return Input.GetKeyDown(Setting.dropKeyCode);
                 default:
                     return false;
             }
@@ -40,6 +42,7 @@ namespace GameSystem
         Walk,
         BeforeSlide,
         Slide,
-        Func
+        Func,
+        Drop
     }
 }

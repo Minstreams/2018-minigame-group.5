@@ -8,9 +8,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f595105970d1e2344ade3bc7ac26d66c, type: 3}
-  m_Name: InputSystemSetting
+  m_Script: {fileID: 11500000, guid: 255bdb149516bb24ebc8f3d42c92d37c, type: 3}
+  m_Name: NetworkSystemSetting
   m_EditorClassIdentifier: 
-  slideKeyCode: 103
-  funcKeyCode: 102
-  dropKeyCode: 0

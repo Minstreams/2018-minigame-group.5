@@ -12,6 +12,7 @@ namespace GameSystem
         {
             public KeyCode slideKeyCode;
             public KeyCode funcKeyCode;
+            public KeyCode dropKeyCode;
         }
     }
 }

@@ -384,9 +384,10 @@ GameObject:
   - component: {fileID: 54253121216176656}
   - component: {fileID: 136982661180681724}
   - component: {fileID: 114101994235926802}
+  - component: {fileID: 114128230053111348}
   m_Layer: 0
   m_Name: Penguin
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -872,13 +873,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bace7175c7854d4384251d4d31bb365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemParent: {fileID: 4805136843456544}
   hips: {fileID: 4952897453276992}
   walkForce: 300
   walkTorque: 10
   walkDrag: 10
+  beforeSlideDrag: 0
+  beforeSlideAcceleration: 10
+  beforeSlideMaxPower: 100
   slideForce: 600
   slideTorque: 4
   slideDrag: 0
+--- !u!114 &114128230053111348
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819038416927894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 5
+    i1: 229
+    i2: 204
+    i3: 146
+    i4: 99
+    i5: 33
+    i6: 92
+    i7: 68
+    i8: 88
+    i9: 129
+    i10: 155
+    i11: 209
+    i12: 81
+    i13: 132
+    i14: 157
+    i15: 40
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!136 &136982661180681724
 CapsuleCollider:
   m_ObjectHideFlags: 1

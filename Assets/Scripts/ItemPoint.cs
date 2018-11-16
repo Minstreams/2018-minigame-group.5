@@ -18,12 +18,17 @@ public class ItemPoint : MonoBehaviour
     {
         transform.Rotate(rotEuler * Time.deltaTime);
     }
+    private void Start()
+    {
+        StartCoroutine(RefreshItem());
+    }
 
     [ContextMenu("Generate")]
     private void GenerateItem()
     {
         itemIndex = Random.Range(0, itemList.Length);
         itemInstance = GameObject.Instantiate(itemList[itemIndex].prefab, transform.position + itemList[itemIndex].offset, Quaternion.identity, transform).GetComponent<ItemOnGround>();
+        itemInstance.theItem = itemList[itemIndex];
         itemInstance.onPicked += StartRefreshItem;
     }
 

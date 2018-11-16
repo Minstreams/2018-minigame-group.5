@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameSystem;
+using UnityEngine.Networking;
 
 
 /// <summary>
 /// 企鹅控制器
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class PenguinController : MonoBehaviour
+public class PenguinController : NetworkBehaviour
 {
     //三层结构
     //底层：企鹅状态切换&动画播放&道具系统
@@ -59,13 +60,18 @@ public class PenguinController : MonoBehaviour
     private ParticleSystem gunShot;
     private float gunShotTimer;
 
+    private Vector3 GetForwardDir()
+    {
+        return transform.forward;
+    }
+
     public void PickUp(ItemOnGround item)
     {
         if (currentItem != null) return;
         currentItem = item;
         item.Picked();
         item.transform.SetParent(itemParent, false);
-        gunShot = itemParent.GetComponentInChildren<ParticleSystem>();
+        gunShot = item.GetComponentInChildren<ParticleSystem>();
         gunShotTimer = 0;
     }
 
@@ -83,6 +89,9 @@ public class PenguinController : MonoBehaviour
     public float walkTorque;
     public float walkDrag;
     public float beforeSlideDrag;
+    public float beforeSlideAcceleration;
+    public float beforeSlideMaxPower;
+    private float beforeSlidePower;
     public float slideForce;
     public float slideTorque;
     public float slideDrag;
@@ -115,7 +124,7 @@ public class PenguinController : MonoBehaviour
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            rid.AddForce(transform.forward * v * walkForce, ForceMode.Force);
+            rid.AddForce(GetForwardDir() * v * walkForce, ForceMode.Force);
             rid.AddTorque(Vector3.up * h * walkTorque);
         }
     }
@@ -123,6 +132,7 @@ public class PenguinController : MonoBehaviour
     private IEnumerator BeforeSlide()
     {
         currentState = PenguinState.BeforeSlide;
+        beforeSlidePower = 0;
         rid.drag = beforeSlideDrag;
         while (true)
         {
@@ -133,6 +143,8 @@ public class PenguinController : MonoBehaviour
                 StartCoroutine(Slide());
                 yield break;
             }
+            beforeSlidePower += Time.deltaTime * beforeSlideAcceleration;
+            if (beforeSlidePower > beforeSlideMaxPower) beforeSlidePower = beforeSlideMaxPower;
         }
     }
 
@@ -140,7 +152,7 @@ public class PenguinController : MonoBehaviour
     {
         currentState = PenguinState.Slide;
         rid.drag = slideDrag;
-        rid.AddForce(transform.forward * slideForce, ForceMode.Impulse);
+        rid.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
 
         while (true)
         {
@@ -151,10 +163,6 @@ public class PenguinController : MonoBehaviour
                 StartCoroutine(Walk());
                 yield break;
             }
-
-            float h = Input.GetAxis("Horizontal");
-
-            rid.AddTorque(Vector3.up * h * slideTorque);
         }
     }
 
@@ -163,9 +171,9 @@ public class PenguinController : MonoBehaviour
         while (true)
         {
             yield return 0;
+            if (currentItem == null) continue;
             if (InputSystem.GetInput(InputCode.Func))
             {
-                if (currentItem == null) continue;
                 switch (currentItem.theItem.type)
                 {
                     case ItemType.Gun:
@@ -187,6 +195,10 @@ public class PenguinController : MonoBehaviour
                 {
                     gunShotTimer += Time.deltaTime;
                 }
+            }
+            if (InputSystem.GetInput(InputCode.Drop))
+            {
+                Drop();
             }
         }
     }
