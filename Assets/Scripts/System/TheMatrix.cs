@@ -56,7 +56,7 @@ namespace GameSystem
                     StartCoroutine(_InGame());
                     yield break;
                 }
-                if (GetGameMessage(GameMessage.Quit))
+                if (GetGameMessage(GameMessage.Exit))
                 {
                     Application.Quit();
                     yield break;
@@ -281,6 +281,7 @@ namespace GameSystem
     {
         Login,
         Start,
-        Quit
+        Quit,
+        Exit
     }
 }

@@ -37,7 +37,6 @@ namespace GameSystem
         private static IEnumerator Waiting()
         {
             yield return new WaitForSeconds(2);
-            Debug.Log(discovery.broadcastsReceived);
             if (discovery.broadcastsReceived != null && discovery.broadcastsReceived.Count == 0)
             {
                 discovery.StopBroadcast();
