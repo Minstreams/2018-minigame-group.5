@@ -24,7 +24,6 @@ public class PenguinController : NetworkBehaviour
         BeforeSlide,
         Slide
     }
-
     private PenguinState _currentState = PenguinState.Walk;
     public PenguinState currentState
     {
@@ -54,7 +53,9 @@ public class PenguinController : NetworkBehaviour
     }
 
 
-    //道具System
+
+
+    //道具------------------------------------------------
     public Transform itemParent;
     private ItemOnGround currentItem;
     private ParticleSystem gunShot;
@@ -82,16 +83,24 @@ public class PenguinController : NetworkBehaviour
         //TODO
     }
 
+
+
+
+
     //中层-----------------------------------------------
     private Rigidbody rid;
+    private Animator anim;
     public Transform hips;
-    public float walkForce = 100;
+    public GameObject camPrefab;
+    public float walkSpeed = 1;
     public float walkTorque;
     public float walkDrag;
+
     public float beforeSlideDrag;
     public float beforeSlideAcceleration;
     public float beforeSlideMaxPower;
     private float beforeSlidePower;
+
     public float slideForce;
     public float slideTorque;
     public float slideDrag;
@@ -99,17 +108,25 @@ public class PenguinController : NetworkBehaviour
     private void Awake()
     {
         rid = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
     {
+        Cinemachine.CinemachineVirtualCamera cam = GameObject.Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        cam.Follow = transform;
+        cam.LookAt = transform.GetChild(2);
         StartCoroutine(Walk());
         StartCoroutine(Func());
     }
 
+
     private IEnumerator Walk()
     {
         currentState = PenguinState.Walk;
+        anim.SetBool("Slide", false);
+        anim.applyRootMotion = true;
+
         rid.drag = walkDrag;
         while (true)
         {
@@ -124,8 +141,30 @@ public class PenguinController : NetworkBehaviour
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            rid.AddForce(GetForwardDir() * v * walkForce, ForceMode.Force);
-            rid.AddTorque(Vector3.up * h * walkTorque);
+            //rid.AddForce(GetForwardDir() * v * walkForce, ForceMode.Force);
+            //rid.AddTorque(Vector3.up * h * walkTorque);
+
+
+            //计算前进方向
+            Vector3 camForward = Camera.main.transform.forward;
+            camForward.y = 0;
+            camForward.Normalize();   //视线方向归一化向量
+            Vector3 forward = (v * camForward - h * Vector3.Cross(camForward, Vector3.up)).normalized;
+
+            float angle = Vector3.SignedAngle(transform.forward, forward, Vector3.up);  //前进转角
+
+            float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h));
+            float currentSpeed = Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs;
+            float turn = Vector3.Dot(transform.right, forward) * walkSpeed * speedAbs;
+
+            //播放转身动画
+            anim.SetFloat("turn", turn);
+
+            //TODO:可以试图改为Torque
+            //transform.Rotate(Vector3.up, angle * (1 - Mathf.Pow(1 - rotateRate, Time.timeScale)));
+
+            //播放行走动画
+            anim.SetFloat("speed", currentSpeed);
         }
     }
 
@@ -151,6 +190,8 @@ public class PenguinController : NetworkBehaviour
     private IEnumerator Slide()
     {
         currentState = PenguinState.Slide;
+        anim.SetBool("Slide", true);
+        anim.applyRootMotion = false;
         rid.drag = slideDrag;
         rid.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
 
