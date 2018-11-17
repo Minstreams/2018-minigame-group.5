@@ -583,7 +583,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819038416927894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.33996165, y: 1.273251e-17, z: -0.5734213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4952897453276992}
@@ -853,7 +853,7 @@ Animator:
   m_GameObject: {fileID: 1819038416927894}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0576582a63bfd8244aa2b244a03b1582, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ffc7541f20824f42981eb1ee416db29, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -875,7 +875,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemParent: {fileID: 4805136843456544}
   hips: {fileID: 4952897453276992}
-  walkForce: 300
+  camPrefab: {fileID: 1261826826182824, guid: f9b8f75aa4784004d8567b83ae38aa6c, type: 2}
+  walkSpeed: 1
   walkTorque: 10
   walkDrag: 10
   beforeSlideDrag: 0
