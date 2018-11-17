@@ -43,4 +43,15 @@ public class ItemPoint : MonoBehaviour
         GenerateItem();
     }
 
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        UnityEditor.Handles.color = Color.blue;
+        UnityEditor.Handles.DrawWireDisc(transform.position - Vector3.up * 0.8f, Vector3.up, ItemOnGround.pickRange/2);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, ItemOnGround.pickRange);
+        UnityEditor.Handles.color = Color.white;
+    }
+#endif
+
 }

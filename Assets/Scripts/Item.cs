@@ -22,6 +22,8 @@ public class Item : ScriptableObject
     public float ammoForce;
     public float ammoHarm;
     public float ammoDestroyPower;
+
+    public float health;
 }
 
 public enum ItemType
