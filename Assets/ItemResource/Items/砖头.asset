@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: "\u7816\u5934"
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1150568594549932, guid: 10c53e82c6e51994d9b6ccef429ab1e9, type: 2}
+  prefab: {fileID: 1551042904668380, guid: 372bf757bbccd3a42b7d17154fcdd402, type: 2}
   offset: {x: 0, y: 0, z: 0}
   type: 0
   force: 0
