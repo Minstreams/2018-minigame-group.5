@@ -2333,7 +2333,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: StartMenu
-  m_OnlineScene: Level0
+  m_OnlineScene: Level1
   m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4

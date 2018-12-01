@@ -53,6 +53,14 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
     }
 
+    private Rigidbody rid;
+    private Animator anim;
+    private void Awake()
+    {
+        rid = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+    }
+
 
 
 
@@ -89,29 +97,19 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
     //中层-----------------------------------------------
-    private Rigidbody rid;
-    private Animator anim;
     public Transform hips;
     public GameObject camPrefab;
     public float walkSpeed = 1;
     public float walkTorque;
-    public float walkDrag;
 
-    public float beforeSlideDrag;
     public float beforeSlideAcceleration;
     public float beforeSlideMaxPower;
     private float beforeSlidePower;
 
     public float slideForce;
     public float slideTorque;
-    public float slideDrag;
 
     CinemachineFreeLook virtualCamera;
-    private void Awake()
-    {
-        rid = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
-    }
 
     private void Start()
     {
@@ -143,7 +141,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         anim.SetBool("Slide", false);
         anim.applyRootMotion = true;
 
-        rid.drag = walkDrag;
         while (true)
         {
             yield return 0;
@@ -167,19 +164,18 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             camForward.Normalize();   //视线方向归一化向量
             Vector3 forward = (v * camForward - h * Vector3.Cross(camForward, Vector3.up)).normalized;  //前进方向
 
-            float angle = Vector3.SignedAngle(transform.forward, forward, Vector3.up);  //前进转角
-
             float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h)); //速度大小
 
-            speedForward = Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs;
-            turnSpeed = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180 + Vector3.Dot(transform.right, forward);
-            //播放转身动画
-            anim.SetFloat("turn", turnSpeed);
-
+            speedForward = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
+            turnSpeed = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
             //播放行走动画
-            anim.SetFloat("speed", Mathf.Sin(Mathf.Clamp01(speedForward) * Mathf.PI * 0.5f));
+            //用二次函数模拟缓动
+            anim.SetFloat("speed", speedForward * (2 - speedForward));
+            //播放转身动画
+            //用三次函数模拟双向缓动
+            anim.SetFloat("turn", turnSpeed * (2 + turnSpeed) * (2 - turnSpeed));
 
-
+            //Debug
             Vector3 eyePos = transform.position + Vector3.up * 0.5f;
             Debug.DrawLine(eyePos, eyePos + transform.forward * speedForward * 2, Color.blue);
             Debug.DrawLine(eyePos, eyePos + transform.right * turnSpeed * 2, Color.red);
@@ -191,7 +187,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     {
         currentState = PenguinState.BeforeSlide;
         beforeSlidePower = 0;
-        rid.drag = beforeSlideDrag;
         while (true)
         {
             yield return 0;
@@ -211,7 +206,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         currentState = PenguinState.Slide;
         anim.SetBool("Slide", true);
         anim.applyRootMotion = false;
-        rid.drag = slideDrag;
         rid.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
 
         while (true)
@@ -275,7 +269,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
                 x = Input.GetAxis("Mouse X");
                 y = Input.GetAxis("Mouse Y");
             }
-            virtualCamera.m_XAxis.m_InputAxisValue = x - turnSpeed * viewTurnDragFactor;
+            virtualCamera.m_XAxis.m_InputAxisValue = Input.GetMouseButton(0) ? x : -Input.GetAxis("Horizontal") * viewTurnDragFactor;
             virtualCamera.m_YAxis.m_InputAxisValue = y;
         }
     }

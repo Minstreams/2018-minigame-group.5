@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// 道具刷新点
 /// </summary>
-public class ItemPoint : MonoBehaviour
+public class ItemPoint : NetworkBehaviour
 {
     public Vector3 rotEuler;
     public float cooldownTime;
 
     public Item[] itemList;
-    private int itemIndex = -1; //-1代表当前没道具出现
+    [SyncVar]
+    private int syncCurrentItemIndex = -1;
     private ItemOnGround itemInstance;
 
     private void Update()
@@ -20,27 +22,33 @@ public class ItemPoint : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(RefreshItem());
+        if (itemList == null || itemList.Length == 0) return;
+        if (isServer)
+            StartCoroutine(RefreshItem());
+        else if (syncCurrentItemIndex >= 0)
+        {
+            ClientGenerateItem(syncCurrentItemIndex);
+        }
     }
 
-    [ContextMenu("Generate")]
-    private void GenerateItem()
+    [ClientRpc]
+    private void RpcGenerateItem(int itemIndex)
     {
-        itemIndex = Random.Range(0, itemList.Length);
+        ClientGenerateItem(itemIndex);
+    }
+
+    private void ClientGenerateItem(int itemIndex)
+    {
         itemInstance = GameObject.Instantiate(itemList[itemIndex].prefab, transform.position + itemList[itemIndex].offset, Quaternion.identity, transform).GetComponent<ItemOnGround>();
         itemInstance.theItem = itemList[itemIndex];
-        itemInstance.onPicked += StartRefreshItem;
-    }
-
-    private void StartRefreshItem()
-    {
-        StartCoroutine(RefreshItem());
+        if (isServer)
+            itemInstance.onPicked += () => { StartCoroutine(RefreshItem()); syncCurrentItemIndex = -1; };
     }
 
     private IEnumerator RefreshItem()
     {
         yield return new WaitForSeconds(cooldownTime);
-        GenerateItem();
+        RpcGenerateItem(syncCurrentItemIndex = Random.Range(0, itemList.Length));
     }
 
 
@@ -48,7 +56,7 @@ public class ItemPoint : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         UnityEditor.Handles.color = Color.blue;
-        UnityEditor.Handles.DrawWireDisc(transform.position - Vector3.up * 0.8f, Vector3.up, ItemOnGround.pickRange/2);
+        UnityEditor.Handles.DrawWireDisc(transform.position - Vector3.up * 0.8f, Vector3.up, ItemOnGround.pickRange / 2);
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, ItemOnGround.pickRange);
         UnityEditor.Handles.color = Color.white;
     }

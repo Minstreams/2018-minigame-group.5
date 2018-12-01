@@ -35,6 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4770937907666426}
   - component: {fileID: 114582329494596824}
+  - component: {fileID: 114151140402642428}
   m_Layer: 0
   m_Name: ItemPoint
   m_TagString: Untagged
@@ -69,6 +70,38 @@ Transform:
   m_Father: {fileID: 4264384893545668}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114151140402642428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748835834121328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 249
+    i1: 57
+    i2: 101
+    i3: 110
+    i4: 224
+    i5: 144
+    i6: 137
+    i7: 196
+    i8: 40
+    i9: 16
+    i10: 240
+    i11: 247
+    i12: 159
+    i13: 126
+    i14: 20
+    i15: 183
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114582329494596824
 MonoBehaviour:
   m_ObjectHideFlags: 1

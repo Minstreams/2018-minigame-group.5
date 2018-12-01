@@ -42,6 +42,10 @@ namespace GameSystem
                 discovery.StopBroadcast();
                 StartHost();
             }
+            else
+            {
+                discovery.StopBroadcast();
+            }
         }
 
         public static void QuitNetworking()
