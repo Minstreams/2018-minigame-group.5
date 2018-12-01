@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 /// 企鹅控制器
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class PenguinController : NetworkBehaviour
+public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 {
     //三层结构
     //底层：企鹅状态切换&动画播放&道具系统
@@ -113,11 +113,14 @@ public class PenguinController : NetworkBehaviour
 
     private void Start()
     {
-        Cinemachine.CinemachineVirtualCamera cam = GameObject.Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineVirtualCamera>();
-        cam.Follow = transform;
-        cam.LookAt = transform.GetChild(2);
-        StartCoroutine(Walk());
-        StartCoroutine(Func());
+        if (isLocalPlayer)
+        {
+            Cinemachine.CinemachineFreeLook cam = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
+            cam.Follow = transform;
+            cam.LookAt = transform.GetChild(2);
+            StartCoroutine(Walk());
+            StartCoroutine(Func());
+        }
     }
 
 
@@ -165,6 +168,12 @@ public class PenguinController : NetworkBehaviour
 
             //播放行走动画
             anim.SetFloat("speed", currentSpeed);
+
+
+            Vector3 eyePos = transform.position + Vector3.up * 0.5f;
+            Debug.DrawLine(eyePos, eyePos + transform.forward * currentSpeed * 2, Color.blue);
+            Debug.DrawLine(eyePos, eyePos + transform.right * turn * 2, Color.red);
+            Debug.DrawLine(eyePos, eyePos + forward * speedAbs * 2, Color.yellow);
         }
     }
 
@@ -242,5 +251,10 @@ public class PenguinController : NetworkBehaviour
                 Drop();
             }
         }
+    }
+
+    public HarmSystem.HarmInformation GetHarmInformation(Collision collision)
+    {
+        return new HarmSystem.HarmInformation();
     }
 }

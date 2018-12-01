@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -53,7 +53,7 @@ LightmapSettings:
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -2279,6 +2279,7 @@ GameObject:
   - component: {fileID: 1049342208}
   - component: {fileID: 1049342206}
   - component: {fileID: 1049342207}
+  - component: {fileID: 1049342209}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -2302,9 +2303,9 @@ MonoBehaviour:
   m_BroadcastVersion: 1
   m_BroadcastSubVersion: 1
   m_BroadcastInterval: 1000
-  m_UseNetworkManager: 0
+  m_UseNetworkManager: 1
   m_BroadcastData: HELLO
-  m_ShowGUI: 0
+  m_ShowGUI: 1
   m_OffsetX: 0
   m_OffsetY: 0
 --- !u!114 &1049342207
@@ -2332,7 +2333,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: StartMenu
-  m_OnlineScene: InGame
+  m_OnlineScene: Level0
   m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4
@@ -2402,6 +2403,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1049342209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1049342205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  showGUI: 1
+  offsetX: 450
+  offsetY: 0
 --- !u!1 &1067047766
 GameObject:
   m_ObjectHideFlags: 0
@@ -2752,7 +2768,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.18, y: 0.8682834}
   m_AnchorMax: {x: 0.374, y: 0.9110001}
-  m_AnchoredPosition: {x: 0.47803497, y: 4}
+  m_AnchoredPosition: {x: 0.47802734, y: 4}
   m_SizeDelta: {x: 1, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177670367
