@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSystem;
 using UnityEngine.Networking;
+using Cinemachine;
 
 
 /// <summary>
@@ -105,6 +106,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float slideTorque;
     public float slideDrag;
 
+    CinemachineFreeLook virtualCamera;
     private void Awake()
     {
         rid = GetComponent<Rigidbody>();
@@ -115,14 +117,25 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     {
         if (isLocalPlayer)
         {
-            Cinemachine.CinemachineFreeLook cam = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
-            cam.Follow = transform;
-            cam.LookAt = transform.GetChild(2);
+            virtualCamera = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform.GetChild(2);
             StartCoroutine(Walk());
             StartCoroutine(Func());
+            StartCoroutine(DragView());
         }
     }
 
+    /// <summary>
+    /// 前进速度
+    /// </summary>
+    float speedForward;
+    /// <summary>
+    /// 转身速度
+    /// </summary>
+    float turnSpeed;
+    [Header("视野随着转身而旋转的比例")]
+    public float viewTurnDragFactor = 0.1f;
 
     private IEnumerator Walk()
     {
@@ -152,27 +165,24 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             Vector3 camForward = Camera.main.transform.forward;
             camForward.y = 0;
             camForward.Normalize();   //视线方向归一化向量
-            Vector3 forward = (v * camForward - h * Vector3.Cross(camForward, Vector3.up)).normalized;
+            Vector3 forward = (v * camForward - h * Vector3.Cross(camForward, Vector3.up)).normalized;  //前进方向
 
             float angle = Vector3.SignedAngle(transform.forward, forward, Vector3.up);  //前进转角
 
-            float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h));
-            float currentSpeed = Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs;
-            float turn = Vector3.Dot(transform.right, forward) * walkSpeed * speedAbs;
+            float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h)); //速度大小
 
+            speedForward = Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs;
+            turnSpeed = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180 + Vector3.Dot(transform.right, forward);
             //播放转身动画
-            anim.SetFloat("turn", turn);
-
-            //TODO:可以试图改为Torque
-            //transform.Rotate(Vector3.up, angle * (1 - Mathf.Pow(1 - rotateRate, Time.timeScale)));
+            anim.SetFloat("turn", turnSpeed);
 
             //播放行走动画
-            anim.SetFloat("speed", currentSpeed);
+            anim.SetFloat("speed", Mathf.Sin(Mathf.Clamp01(speedForward) * Mathf.PI * 0.5f));
 
 
             Vector3 eyePos = transform.position + Vector3.up * 0.5f;
-            Debug.DrawLine(eyePos, eyePos + transform.forward * currentSpeed * 2, Color.blue);
-            Debug.DrawLine(eyePos, eyePos + transform.right * turn * 2, Color.red);
+            Debug.DrawLine(eyePos, eyePos + transform.forward * speedForward * 2, Color.blue);
+            Debug.DrawLine(eyePos, eyePos + transform.right * turnSpeed * 2, Color.red);
             Debug.DrawLine(eyePos, eyePos + forward * speedAbs * 2, Color.yellow);
         }
     }
@@ -250,6 +260,23 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             {
                 Drop();
             }
+        }
+    }
+
+    private IEnumerator DragView()
+    {
+        while (true)
+        {
+            yield return 0;
+            float x = 0;
+            float y = 0;
+            if (Input.GetMouseButton(0))
+            {
+                x = Input.GetAxis("Mouse X");
+                y = Input.GetAxis("Mouse Y");
+            }
+            virtualCamera.m_XAxis.m_InputAxisValue = x - turnSpeed * viewTurnDragFactor;
+            virtualCamera.m_YAxis.m_InputAxisValue = y;
         }
     }
 

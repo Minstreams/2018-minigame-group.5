@@ -884,9 +884,10 @@ MonoBehaviour:
   beforeSlideDrag: 0
   beforeSlideAcceleration: 10
   beforeSlideMaxPower: 100
-  slideForce: 600
+  slideForce: 400
   slideTorque: 4
   slideDrag: 0
+  viewTurnDragFactor: 0.1
 --- !u!114 &114128230053111348
 MonoBehaviour:
   m_ObjectHideFlags: 1
