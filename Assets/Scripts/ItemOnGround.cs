@@ -26,7 +26,7 @@ public class ItemOnGround : MonoBehaviour
     {
         if (state == ItemState.pickable && other.tag == "Player")
         {
-            other.GetComponent<PenguinController>().PickUp(this);
+            other.GetComponentInParent<PenguinController>().PickUp(this);
         }
     }
 

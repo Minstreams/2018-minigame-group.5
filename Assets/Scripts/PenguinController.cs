@@ -49,7 +49,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public Transform hips;
     public GameObject camPrefab;
     private CinemachineFreeLook virtualCamera;
-    public Rigidbody rid;
+    public Transform camPoint;
+    public Rigidbody[] rids;
     private Animator anim;
     private void Awake()
     {
@@ -144,8 +145,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     }
     private IEnumerator Born()  //出生
     {
-        virtualCamera.Follow = transform;
-        virtualCamera.LookAt = transform.Find("CameraPoint");
+        virtualCamera.Follow = camPoint;
+        virtualCamera.LookAt = camPoint;
         StartCoroutine(Walk());
         yield break;
     }
@@ -160,6 +161,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         CurrentState = PenguinState.Walk;
         anim.SetBool("Slide", false);
         anim.applyRootMotion = true;
+        anim.enabled = true;
+        GetComponent<CharacterController>().enabled = true;
 
         while (true)
         {
@@ -232,17 +235,41 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
     public float slideForce;
     public float slideTorque;
+    public float slideAnimLength = 1;
     private IEnumerator Slide() //滑行状态
     {
         CurrentState = PenguinState.Slide;
         anim.SetBool("Slide", true);
-        anim.applyRootMotion = false;
-        rid.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
+        //anim.applyRootMotion = false;
+
+        yield return new WaitForSeconds(slideAnimLength);
+        anim.enabled = false;
+        GetComponent<CharacterController>().enabled = false;
+        {
+            Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody r in rigidbodies)
+            {
+                r.velocity = Vector3.zero;
+            }
+        }
+        foreach (Rigidbody r in rids)
+        {
+            r.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
+        }
 
         while (true)
         {
-            yield return 0;
+            yield return new WaitForFixedUpdate();
             //Update here
+
+
+            Vector3 hipsPos = hips.transform.position;
+            Vector3 transPos = hipsPos;
+            transPos.y = transform.position.y;
+
+            transform.position = transPos;
+            hips.transform.position = hipsPos;
+
             if (InputSystem.GetInput(InputCode.Walk))
             {
                 StartCoroutine(Walk());
