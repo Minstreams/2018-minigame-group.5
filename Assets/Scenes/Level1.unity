@@ -248,6 +248,48 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4305598324370398, guid: d6a2f557a1ee7cf4ea5ff465794c7adc,
     type: 2}
   m_PrefabInternal: {fileID: 2109667701}
+--- !u!1001 &332060923
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 6.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277559444903516, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36c575bed8c3b37419ed66c14abcf430, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!4 &347742015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4605058278640326, guid: e2f0c1b69a5401448bc357232f325586,

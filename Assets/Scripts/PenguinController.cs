@@ -9,7 +9,6 @@ using Cinemachine;
 /// <summary>
 /// 企鹅控制器
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 {
     //三层结构
@@ -19,46 +18,58 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
     //底层-----------------------------------------------
+    public static PenguinController localPenguin { get; private set; }
+
+    public bool debug = false;
+
     public enum PenguinState
     {
+        Born,
         Walk,
         BeforeSlide,
-        Slide
+        Slide,
+        Dead
     }
     private PenguinState _currentState = PenguinState.Walk;
-    public PenguinState currentState
+    /// <summary>
+    /// 当前状态,用于外部查询
+    /// </summary>
+    public PenguinState CurrentState
     {
         get { return _currentState; }
-        set
+        private set
         {
             if (_currentState == value) return;
-            switch (value)
-            {
-                //TODO：动画播放
-                case PenguinState.Walk:
-                    hips.Rotate(Vector3.left * 90, Space.Self);
-                    Debug.Log("Walk!");
-                    break;
-                case PenguinState.BeforeSlide:
-                    Debug.Log("BeforeSlide!");
-                    break;
-                case PenguinState.Slide:
-                    hips.Rotate(Vector3.left * -90, Space.Self);
-                    Debug.Log("Slide!");
-                    break;
-                default:
-                    break;
-            }
+            if (debug) Debug.Log(gameObject + " change state to " + value);
             _currentState = value;
         }
     }
 
-    private Rigidbody rid;
+    //引用
+    public Transform hips;
+    public GameObject camPrefab;
+    private CinemachineFreeLook virtualCamera;
+    public Rigidbody rid;
     private Animator anim;
     private void Awake()
     {
-        rid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        GameSystem.NetworkSystem.playerList.Add(this);
+        DontDestroyOnLoad(gameObject);
+        if (isLocalPlayer)
+        {
+            localPenguin = this;
+            virtualCamera = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
+            StartCoroutine(Born());
+            GameSystem.LevelSystem.StartCoroutine(DragView());
+        }
+    }
+    private void OnDestroy()
+    {
+        GameSystem.NetworkSystem.playerList.Remove(this);
     }
 
 
@@ -96,48 +107,57 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
 
-    //中层-----------------------------------------------
-    public Transform hips;
-    public GameObject camPrefab;
-    public float walkSpeed = 1;
-    public float walkTorque;
+    //状态机-----------------------------------------------
 
-    public float beforeSlideAcceleration;
-    public float beforeSlideMaxPower;
-    private float beforeSlidePower;
-
-    public float slideForce;
-    public float slideTorque;
-
-    CinemachineFreeLook virtualCamera;
-
-    private void Start()
+    [ContextMenu("Die")]
+    public void Die()
     {
-        if (isLocalPlayer)
-        {
-            virtualCamera = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
-            virtualCamera.Follow = transform;
-            virtualCamera.LookAt = transform.GetChild(2);
-            StartCoroutine(Walk());
-            StartCoroutine(Func());
-            StartCoroutine(DragView());
-        }
+        StopAllCoroutines();
+        StartCoroutine(_Die());
     }
 
-    /// <summary>
-    /// 前进速度
-    /// </summary>
-    float speedForward;
-    /// <summary>
-    /// 转身速度
-    /// </summary>
-    float turnSpeed;
+    private IEnumerator _Die()   //死亡
+    {
+        CurrentState = PenguinState.Dead;
+
+
+        //在System上运行协程，这样就可以直接对玩家物体设置Active
+        GameSystem.LevelSystem.StartCoroutine(Observe());
+        yield break;
+    }
+
+
+    private IEnumerator Observe()   //观战状态
+    {
+        gameObject.SetActive(false);
+        virtualCamera.Follow = LevelSystem.observerPoints[0];
+        virtualCamera.LookAt = LevelSystem.observerPoints[0];
+        yield break;
+    }
+
+    [ContextMenu("Reborn")]
+    public void Reborn()
+    {
+        StopAllCoroutines();
+        gameObject.SetActive(true);
+        StartCoroutine(Born());
+    }
+    private IEnumerator Born()  //出生
+    {
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform.Find("CameraPoint");
+        StartCoroutine(Walk());
+        yield break;
+    }
+
+
+
+    public float walkSpeed = 1;
     [Header("视野随着转身而旋转的比例")]
     public float viewTurnDragFactor = 0.1f;
-
-    private IEnumerator Walk()
+    private IEnumerator Walk()  //行走状态
     {
-        currentState = PenguinState.Walk;
+        CurrentState = PenguinState.Walk;
         anim.SetBool("Slide", false);
         anim.applyRootMotion = true;
 
@@ -166,8 +186,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
             float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h)); //速度大小
 
-            speedForward = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
-            turnSpeed = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
+            float speedForward = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
+            float turnSpeed = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
             //播放行走动画
             //用二次函数模拟缓动
             anim.SetFloat("speed", speedForward * (2 - speedForward));
@@ -183,9 +203,15 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
     }
 
-    private IEnumerator BeforeSlide()
+
+
+
+    public float beforeSlideAcceleration;
+    public float beforeSlideMaxPower;
+    private float beforeSlidePower;
+    private IEnumerator BeforeSlide()   //滑行蓄力
     {
-        currentState = PenguinState.BeforeSlide;
+        CurrentState = PenguinState.BeforeSlide;
         beforeSlidePower = 0;
         while (true)
         {
@@ -201,9 +227,14 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
     }
 
-    private IEnumerator Slide()
+
+
+
+    public float slideForce;
+    public float slideTorque;
+    private IEnumerator Slide() //滑行状态
     {
-        currentState = PenguinState.Slide;
+        CurrentState = PenguinState.Slide;
         anim.SetBool("Slide", true);
         anim.applyRootMotion = false;
         rid.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);

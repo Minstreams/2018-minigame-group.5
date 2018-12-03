@@ -156,5 +156,5 @@ MonoBehaviour:
   _login: SignUi
   _startMenu: StartMenu
   _inGame: Level1
-  test: 1
+  test: 0
   dataToSave: []

@@ -60,5 +60,11 @@ namespace GameSystem
                 NetworkManager.singleton.StopClient();
             }
         }
+
+        //Property
+        public static PenguinController LocalPlayer { get { return PenguinController.localPenguin; } }
+        public static bool IsServer { get { return PenguinController.localPenguin.isServer; } }
+
+        public static List<PenguinController> playerList = new List<PenguinController>();
     }
 }
