@@ -30,6 +30,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         Slide,
         Dead
     }
+    [SyncVar]
     private PenguinState _currentState = PenguinState.Walk;
     /// <summary>
     /// 当前状态,用于外部查询
@@ -66,6 +67,10 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             virtualCamera = Instantiate(camPrefab).GetComponent<Cinemachine.CinemachineFreeLook>();
             StartCoroutine(Born());
             GameSystem.LevelSystem.StartCoroutine(DragView());
+        }
+        else
+        {
+            anim.applyRootMotion = false;
         }
     }
     private void OnDestroy()
@@ -156,13 +161,24 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float walkSpeed = 1;
     [Header("视野随着转身而旋转的比例")]
     public float viewTurnDragFactor = 0.1f;
+    [Command]
+    private void CmdWalk()
+    {
+        RpcWalk();
+    }
+    [ClientRpc]
+    private void RpcWalk()
+    {
+        anim.enabled = true;
+        GetComponent<CharacterController>().enabled = true;
+        transform.position = hips.transform.position - Vector3.up * 0.5f;
+        hips.transform.localPosition = Vector3.up * 0.5f;
+        anim.SetBool("Slide", false);
+    }
     private IEnumerator Walk()  //行走状态
     {
         CurrentState = PenguinState.Walk;
-        anim.SetBool("Slide", false);
-        anim.applyRootMotion = true;
-        anim.enabled = true;
-        GetComponent<CharacterController>().enabled = true;
+        CmdWalk();
 
         while (true)
         {
@@ -199,9 +215,9 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             anim.SetFloat("turn", turnSpeed * (2 + turnSpeed) * (2 - turnSpeed));
 
             //Debug
-            Vector3 eyePos = transform.position + Vector3.up * 0.5f;
-            Debug.DrawLine(eyePos, eyePos + transform.forward * speedForward * 2, Color.blue);
-            Debug.DrawLine(eyePos, eyePos + transform.right * turnSpeed * 2, Color.red);
+            Vector3 eyePos = hips.position + Vector3.up * 0.5f;
+            Debug.DrawLine(eyePos, eyePos + hips.forward * speedForward * 2, Color.blue);
+            Debug.DrawLine(eyePos, eyePos + hips.right * turnSpeed * 2, Color.red);
             Debug.DrawLine(eyePos, eyePos + forward * speedAbs * 2, Color.yellow);
         }
     }
@@ -236,39 +252,48 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float slideForce;
     public float slideTorque;
     public float slideAnimLength = 1;
-    private IEnumerator Slide() //滑行状态
+    [Command]
+    private void CmdSlide()
     {
-        CurrentState = PenguinState.Slide;
-        anim.SetBool("Slide", true);
-        //anim.applyRootMotion = false;
-
-        yield return new WaitForSeconds(slideAnimLength);
+        RpcSlide();
+    }
+    [ClientRpc]
+    private void RpcSlide()
+    {
         anim.enabled = false;
         GetComponent<CharacterController>().enabled = false;
+        anim.SetBool("Slide", true);
+    }
+    [Command]
+    private void CmdSlide2()
+    {
+        RpcSlide2();
+    }
+    [ClientRpc]
+    private void RpcSlide2()
+    {
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody r in rigidbodies)
         {
-            Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-            foreach (Rigidbody r in rigidbodies)
-            {
-                r.velocity = Vector3.zero;
-            }
+            r.velocity = Vector3.zero;
         }
         foreach (Rigidbody r in rids)
         {
             r.AddForce(transform.forward * (slideForce + Mathf.Log(beforeSlidePower, 2)), ForceMode.Impulse);
         }
+    }
+    private IEnumerator Slide() //滑行状态
+    {
+        CurrentState = PenguinState.Slide;
+
+        CmdSlide();
+        yield return new WaitForSeconds(slideAnimLength);
+        CmdSlide2();
 
         while (true)
         {
             yield return new WaitForFixedUpdate();
             //Update here
-
-
-            Vector3 hipsPos = hips.transform.position;
-            Vector3 transPos = hipsPos;
-            transPos.y = transform.position.y;
-
-            transform.position = transPos;
-            hips.transform.position = hipsPos;
 
             if (InputSystem.GetInput(InputCode.Walk))
             {
