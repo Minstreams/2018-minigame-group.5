@@ -10,7 +10,7 @@ public class MyDiscovery : NetworkDiscovery
         base.OnReceivedBroadcast(fromAddress, data);
         Debug.Log("Receive boardcast! [address:" + fromAddress + "][data:" + data + "]");
         NetworkManager.singleton.networkAddress = fromAddress;
-        //NetworkManager.singleton.StartClient();
+        NetworkManager.singleton.StartClient();
     }
 
     private void OnConnectedToServer()

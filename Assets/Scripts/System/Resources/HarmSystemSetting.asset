@@ -11,3 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b202a5cd226a1946a2cd470dc53eec1, type: 3}
   m_Name: HarmSystemSetting
   m_EditorClassIdentifier: 
+  harmFactor: 0.01
+  harmFloatingNumber: {fileID: 1156790284405136, guid: 5f4f5461c08c4cb4987891de8c8da812,
+    type: 2}

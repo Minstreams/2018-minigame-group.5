@@ -2334,7 +2334,16 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 0
   m_OfflineScene: StartMenu
   m_OnlineScene: Level1
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 1150568594549932, guid: 10c53e82c6e51994d9b6ccef429ab1e9, type: 2}
+  - {fileID: 1852417486951480, guid: 369e5ea73584ea2489c818fbbe4b209b, type: 2}
+  - {fileID: 1088023207945002, guid: a27893e8982dad240852e6b05f48f2d5, type: 2}
+  - {fileID: 1551042904668380, guid: 372bf757bbccd3a42b7d17154fcdd402, type: 2}
+  - {fileID: 1358103167959650, guid: 42bef4df4ad3f6848a93e88220e2ff72, type: 2}
+  - {fileID: 1202501472858006, guid: dcdcfe04867b42649ba360e3705355f9, type: 2}
+  - {fileID: 1647716308745630, guid: 95720cf5efda4d94fafa56643d42f0f2, type: 2}
+  - {fileID: 1956914881395060, guid: 81a4ade9020825642b84caac36fb399d, type: 2}
+  - {fileID: 1030526037755442, guid: c2b28922b8dc8d34bba3d3275d375ed2, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -2380,8 +2389,8 @@ MonoBehaviour:
   m_Channels: 
   m_UseWebSockets: 0
   m_UseSimulator: 0
-  m_SimulatedLatency: 1
-  m_PacketLossPercentage: 0
+  m_SimulatedLatency: 38
+  m_PacketLossPercentage: 2.6
   m_MaxBufferedPackets: 16
   m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com

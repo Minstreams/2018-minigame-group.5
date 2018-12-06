@@ -14,6 +14,6 @@ public class MoveAround : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate (rot);
+		transform.Rotate (rot * Time.deltaTime);
 	}
 }

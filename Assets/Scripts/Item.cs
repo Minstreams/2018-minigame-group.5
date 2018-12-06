@@ -19,6 +19,7 @@ public class Item : ScriptableObject
     public float deltaTime;
     public AudioClip sound;
 
+    public int maxAmmo;
     public float ammoForce;
     public float ammoHarm;
     public float ammoDestroyPower;

@@ -24,9 +24,10 @@ GameObject:
   - component: {fileID: 65825019076144454}
   - component: {fileID: 135001159812845514}
   - component: {fileID: 114858852530769646}
+  - component: {fileID: 114820489905695588}
   m_Layer: 0
   m_Name: ItemTestPrefab
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 1150568594549932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8670949, y: 2, z: 0.515625}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4689407353579654}
   m_Father: {fileID: 0}
@@ -129,6 +130,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114820489905695588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1150568594549932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 16
+    i1: 197
+    i2: 62
+    i3: 130
+    i4: 198
+    i5: 229
+    i6: 25
+    i7: 148
+    i8: 217
+    i9: 182
+    i10: 204
+    i11: 239
+    i12: 66
+    i13: 154
+    i14: 177
+    i15: 233
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114858852530769646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,8 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
 --- !u!135 &135001159812845514
 SphereCollider:
   m_ObjectHideFlags: 1

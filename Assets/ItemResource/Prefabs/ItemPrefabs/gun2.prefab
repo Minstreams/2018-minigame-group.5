@@ -38,9 +38,10 @@ GameObject:
   - component: {fileID: 4328587318095076}
   - component: {fileID: 135580336148179528}
   - component: {fileID: 114026731905800904}
+  - component: {fileID: 114587764923133474}
   m_Layer: 0
   m_Name: gun2
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,8 +157,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
+--- !u!114 &114587764923133474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1647716308745630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 149
+    i1: 114
+    i2: 12
+    i3: 245
+    i4: 239
+    i5: 218
+    i6: 77
+    i7: 148
+    i8: 250
+    i9: 250
+    i10: 86
+    i11: 100
+    i12: 61
+    i13: 66
+    i14: 240
+    i15: 242
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135580336148179528
 SphereCollider:
   m_ObjectHideFlags: 1

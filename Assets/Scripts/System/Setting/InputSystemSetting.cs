@@ -11,6 +11,7 @@ namespace GameSystem
         public class InputSystemSetting : ScriptableObject
         {
             public KeyCode slideKeyCode;
+            public KeyCode brakeKeyCode;
             public KeyCode funcKeyCode;
             public KeyCode dropKeyCode;
         }

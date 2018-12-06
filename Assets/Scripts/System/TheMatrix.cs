@@ -15,26 +15,25 @@ namespace GameSystem
         //流程--------------------------------
         private IEnumerator _Start()
         {
-            yield return _Login();
+            yield return _Logo();
         }
 
         //场景名字记为_name
-        public string _login;
+        public string _logo;
         /// <summary>
         /// 开始的Logo场景
         /// </summary>
-        private IEnumerator _Login()
+        private IEnumerator _Logo()
         {
-            SceneSystem.PushScene(_login);
+            SceneSystem.SimpleLoadScene(_logo);
             //在进入每个状态前重置控制信息
             ResetGameMessage();
             while (true)
             {
                 //提前return，延迟一帧开始检测
                 yield return 0;
-                if (GetGameMessage(GameMessage.Login))
+                if (GetGameMessage(GameMessage.Enter))
                 {
-                    yield return new WaitForSeconds(SceneSystem.PopAndPushScene(_startMenu));
                     //不直接用嵌套，防止嵌套层数过深（是否有自动优化？没查到）
                     StartCoroutine(_StartMenu());
                     //结束
@@ -46,14 +45,14 @@ namespace GameSystem
         public string _startMenu;
         private IEnumerator _StartMenu()
         {
+            SceneSystem.SimpleLoadScene(_startMenu);
             ResetGameMessage();
             while (true)
             {
                 yield return 0;
                 if (GetGameMessage(GameMessage.Start))
                 {
-                    NetworkSystem.Start();
-                    StartCoroutine(_InGame());
+                    StartCoroutine(_Loading());
                     yield break;
                 }
                 if (GetGameMessage(GameMessage.Exit))
@@ -64,15 +63,83 @@ namespace GameSystem
             }
         }
 
-        public string _inGame;
-        private IEnumerator _InGame()
+        public string _loading;
+        private IEnumerator _Loading()
         {
+            SceneSystem.SimpleLoadScene(_loading);
+            NetworkSystem.StartClient();
+            ResetGameMessage();
+            while (true)
+            {
+                yield return 0;
+                if (GetGameMessage(GameMessage.Loaded))
+                {
+                    //成功加入房间
+                    StartCoroutine(_InGameClient());
+                    yield break;
+                }
+                if (GetGameMessage(GameMessage.Enter))
+                {
+                    //自己开房间
+                    StartCoroutine(_InGameServer());
+                    yield break;
+                }
+                if (GetGameMessage(GameMessage.Quit))
+                {
+                    //返回主菜单
+                    NetworkSystem.QuitNetworking();
+                    StartCoroutine(_StartMenu());
+                    yield break;
+                }
+            }
+        }
+
+        private IEnumerator _InGameClient()
+        {
+            NetworkSystem.discovery.StopBroadcast();
+            LevelSystem.StartDragView();
+
             ResetGameMessage();
             while (true)
             {
                 yield return 0;
                 if (GetGameMessage(GameMessage.Quit))
                 {
+                    LevelSystem.StopDragView();
+                    NetworkSystem.QuitNetworking();
+                    StartCoroutine(_StartMenu());
+                    yield break;
+                }
+            }
+        }
+
+        private IEnumerator _InGameServer()
+        {
+            NetworkSystem.discovery.StopBroadcast();
+            NetworkSystem.StartHost();
+            ResetGameMessage();
+            while (true)
+            {
+                yield return 0;
+                if (GetGameMessage(GameMessage.Loaded))
+                {
+                    StartCoroutine(_InGameLevel());
+                    yield break;
+                }
+            }
+        }
+
+        private IEnumerator _InGameLevel()
+        {
+            LevelSystem.StartDragView();
+            LevelSystem.StartNewLevel();
+            ResetGameMessage();
+            while (true)
+            {
+                yield return 0;
+                if (GetGameMessage(GameMessage.Quit))
+                {
+                    LevelSystem.StopDragView();
                     NetworkSystem.QuitNetworking();
                     StartCoroutine(_StartMenu());
                     yield break;
@@ -94,6 +161,7 @@ namespace GameSystem
 
 #if UNITY_EDITOR
         public bool test;
+        public bool debug;
 #endif
         private static TheMatrix instance;
         private static TheMatrix Instance
@@ -135,6 +203,9 @@ namespace GameSystem
         /// <param name="message">信息</param>
         public static void SendGameMessage(GameMessage message)
         {
+#if UNITY_EDITOR
+            if (Instance.debug) Debug.Log("Message Send " + message);
+#endif
             gameMessageReciver[(int)message] = true;
         }
         /// <summary>
@@ -142,7 +213,10 @@ namespace GameSystem
         /// </summary>
         public static void ResetGameMessage()
         {
-            gameMessageReciver.Initialize();
+            for (int i = 0; i < gameMessageReciver.Length; i++)
+            {
+                gameMessageReciver.SetValue(false, i);
+            }
         }
 
 
@@ -264,7 +338,7 @@ namespace GameSystem
 
 #if UNITY_EDITOR
             //else
-                //SceneManager.UnloadSceneAsync("System");
+            //SceneManager.UnloadSceneAsync("System");
 #endif
             LoadAll();
         }
@@ -279,8 +353,9 @@ namespace GameSystem
     /// </summary>
     public enum GameMessage
     {
-        Login,
+        Enter,
         Start,
+        Loaded,
         Quit,
         Exit
     }

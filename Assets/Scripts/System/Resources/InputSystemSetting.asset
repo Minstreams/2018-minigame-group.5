@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: InputSystemSetting
   m_EditorClassIdentifier: 
   slideKeyCode: 103
+  brakeKeyCode: 103
   funcKeyCode: 102
   dropKeyCode: 104

@@ -9,17 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/System.unity
     guid: 5946380e85d0ea642b510e92d367c4b3
   - enabled: 1
-    path: Assets/Scenes/SignUi.unity
-    guid: fc913eadba58fea40a59ee12439c4e67
+    path: Assets/Scenes/Logo.unity
+    guid: bd154163c6a7c424bb18446fae281724
+  - enabled: 1
+    path: Assets/Scenes/Loading.unity
+    guid: 1d654adc08427f94589ad9ddfb524653
   - enabled: 1
     path: Assets/Scenes/StartMenu.unity
     guid: 309994eadbd1d0d4996c9a6dd68a7960
-  - enabled: 0
-    path: Assets/Scenes/InGame.unity
-    guid: 34be10d39059dad4db114199eb6e6e27
-  - enabled: 0
-    path: Assets/Scenes/Level0.unity
-    guid: 263fd7a1671059045b8e7edaa14cb9bc
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 685727de14c49594bb587dc8f35a6be4

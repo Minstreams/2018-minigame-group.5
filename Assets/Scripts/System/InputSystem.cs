@@ -16,12 +16,10 @@ namespace GameSystem
         {
             switch (code)
             {
-                case InputCode.Walk:
-                    return Input.GetKeyDown(Setting.slideKeyCode);
-                case InputCode.BeforeSlide:
-                    return Input.GetKeyDown(Setting.slideKeyCode);
+                case InputCode.Brake:
+                    return Input.GetKey(Setting.brakeKeyCode);
                 case InputCode.Slide:
-                    return Input.GetKeyUp(Setting.slideKeyCode);
+                    return Input.GetKey(Setting.slideKeyCode);
                 case InputCode.Func:
                     return Input.GetKey(Setting.funcKeyCode);
                 case InputCode.Drop:
@@ -39,8 +37,7 @@ namespace GameSystem
     /// </summary>
     public enum InputCode
     {
-        Walk,
-        BeforeSlide,
+        Brake,
         Slide,
         Func,
         Drop

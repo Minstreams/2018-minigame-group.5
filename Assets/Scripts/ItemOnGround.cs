@@ -1,39 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using GameSystem;
 
 /// <summary>
 /// 场景中的道具
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
-public class ItemOnGround : MonoBehaviour
+public class ItemOnGround : NetworkBehaviour
 {
-    public const float pickRange = 1;
-    public enum ItemState
-    {
-        pickable,
-        rock,
-        onHand
-    }
-    private ItemState state = ItemState.pickable;
-
+    public ItemSystem.ItemState state = ItemSystem.ItemState.pickable;
     public int ammo;
-    public Item theItem;
+    public Item item;
 
     public event System.Action onPicked;
 
+    private void Start()
+    {
+        if (NetworkSystem.IsServer) NetworkServer.Spawn(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (state == ItemState.pickable && other.tag == "Player")
+        if (NetworkSystem.IsServer && state == ItemSystem.ItemState.pickable && other.tag == "Player")
         {
             other.GetComponentInParent<PenguinController>().PickUp(this);
         }
     }
 
-    public void Picked()
+    [ClientRpc]
+    public void RpcPicked()
     {
-        state = ItemState.onHand;
         if (onPicked != null) onPicked();
+        NetworkServer.Destroy(gameObject);
     }
 
     public void Dropped(Vector3 direction, float speed)
@@ -52,14 +52,14 @@ public class ItemOnGround : MonoBehaviour
     private void Reset()
     {
         SphereCollider collider = GetComponent<SphereCollider>();
-        collider.radius = pickRange;
+        collider.radius = ItemSystem.PickRange;
         collider.isTrigger = true;
     }
 
     private void OnDrawGizmosSelected()
     {
         UnityEditor.Handles.color = Color.blue;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, pickRange);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, ItemSystem.PickRange);
         UnityEditor.Handles.color = Color.white;
     }
 #endif

@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4593488871991706}
   - component: {fileID: 135522694097705502}
   - component: {fileID: 114604325927109592}
+  - component: {fileID: 114057135994749784}
   m_Layer: 0
   m_Name: chair
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1965302268387228}
   m_Mesh: {fileID: 43975352103640904, guid: a75bd6e5aa42b3347945c4c5eace3209, type: 2}
+--- !u!114 &114057135994749784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358103167959650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 66
+    i1: 190
+    i2: 244
+    i3: 223
+    i4: 74
+    i5: 211
+    i6: 246
+    i7: 132
+    i8: 138
+    i9: 147
+    i10: 232
+    i11: 130
+    i12: 32
+    i13: 226
+    i14: 255
+    i15: 114
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114604325927109592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,8 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
 --- !u!135 &135522694097705502
 SphereCollider:
   m_ObjectHideFlags: 1

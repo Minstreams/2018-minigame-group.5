@@ -14,7 +14,7 @@ public class ItemPoint : NetworkBehaviour
     public Item[] itemList;
     [SyncVar]
     private int syncCurrentItemIndex = -1;
-    private ItemOnGround itemInstance;
+
 
     private void Update()
     {
@@ -24,7 +24,10 @@ public class ItemPoint : NetworkBehaviour
     {
         if (itemList == null || itemList.Length == 0) return;
         if (isServer)
+        {
             StartCoroutine(RefreshItem());
+            NetworkServer.Spawn(gameObject);
+        }
         else if (syncCurrentItemIndex >= 0)
         {
             ClientGenerateItem(syncCurrentItemIndex);
@@ -39,10 +42,8 @@ public class ItemPoint : NetworkBehaviour
 
     private void ClientGenerateItem(int itemIndex)
     {
-        itemInstance = GameObject.Instantiate(itemList[itemIndex].prefab, transform.position + itemList[itemIndex].offset, Quaternion.identity, transform).GetComponent<ItemOnGround>();
-        itemInstance.theItem = itemList[itemIndex];
-        if (isServer)
-            itemInstance.onPicked += () => { StartCoroutine(RefreshItem()); syncCurrentItemIndex = -1; };
+        ItemOnGround iog = GameSystem.ItemSystem.GenerateItem(transform, new GameSystem.ItemSystem.ItemGenerationInformation(true, GameSystem.ItemSystem.ItemState.pickable, itemList[itemIndex].maxAmmo, itemList[itemIndex]));
+        if (isServer) iog.onPicked += () => { StartCoroutine(RefreshItem()); syncCurrentItemIndex = -1; };
     }
 
     private IEnumerator RefreshItem()
@@ -51,15 +52,13 @@ public class ItemPoint : NetworkBehaviour
         RpcGenerateItem(syncCurrentItemIndex = Random.Range(0, itemList.Length));
     }
 
-
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         UnityEditor.Handles.color = Color.blue;
-        UnityEditor.Handles.DrawWireDisc(transform.position - Vector3.up * 0.8f, Vector3.up, ItemOnGround.pickRange / 2);
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, ItemOnGround.pickRange);
+        UnityEditor.Handles.DrawWireDisc(transform.position - Vector3.up * 0.8f, Vector3.up, GameSystem.ItemSystem.PickRange / 2);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, GameSystem.ItemSystem.PickRange);
         UnityEditor.Handles.color = Color.white;
     }
 #endif
-
 }

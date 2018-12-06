@@ -38,9 +38,10 @@ GameObject:
   - component: {fileID: 4379991264119422}
   - component: {fileID: 135087953501864648}
   - component: {fileID: 114788409113291392}
+  - component: {fileID: 114135781897349602}
   m_Layer: 0
   m_Name: brick
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126102394716200}
   m_Mesh: {fileID: 43098986924673492, guid: 5cba0a6825bcd1642ab9e4564f783b4e, type: 2}
+--- !u!114 &114135781897349602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1551042904668380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 55
+    i1: 43
+    i2: 247
+    i3: 87
+    i4: 187
+    i5: 204
+    i6: 211
+    i7: 164
+    i8: 43
+    i9: 125
+    i10: 23
+    i11: 21
+    i12: 79
+    i13: 205
+    i14: 212
+    i15: 2
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114788409113291392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,8 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
 --- !u!135 &135087953501864648
 SphereCollider:
   m_ObjectHideFlags: 1

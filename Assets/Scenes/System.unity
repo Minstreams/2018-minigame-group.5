@@ -113,48 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &931677027
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.998
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4510734322444444, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 05e5cc9263215c4458819bd151849d28, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &963468139
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,8 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375486c2f106a48409e38b73e36c3a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _login: SignUi
+  _logo: Logo
   _startMenu: StartMenu
-  _inGame: Level1
-  test: 0
+  _loading: Loading
+  test: 1
+  debug: 1
   dataToSave: []

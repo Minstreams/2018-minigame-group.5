@@ -11,3 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1374f215f6a22aa41b629bfb1c65b1f5, type: 3}
   m_Name: LevelSystemSetting
   m_EditorClassIdentifier: 
+  camPrefab: {fileID: 1261826826182824, guid: f9b8f75aa4784004d8567b83ae38aa6c, type: 2}
+  camFollowRate: 0.97
+  dieTime: 0.2
+  dieTimeScale: 0.1
+  viewTurnDragFactor: 0.1
+  viewDragSensitivity: 1

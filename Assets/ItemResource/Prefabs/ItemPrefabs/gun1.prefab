@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4922430873022376}
   - component: {fileID: 135133813160104994}
   - component: {fileID: 114122167281573148}
+  - component: {fileID: 114045079306722930}
   m_Layer: 0
   m_Name: gun1
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,6 +146,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390635225937456}
   m_Mesh: {fileID: 43095393243574610, guid: 3dc01ffb74485ff41b93070abf30e60d, type: 2}
+--- !u!114 &114045079306722930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1202501472858006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 220
+    i1: 220
+    i2: 254
+    i3: 4
+    i4: 134
+    i5: 123
+    i6: 66
+    i7: 100
+    i8: 155
+    i9: 163
+    i10: 96
+    i11: 227
+    i12: 112
+    i13: 83
+    i14: 85
+    i15: 249
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114122167281573148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,8 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
 --- !u!135 &135133813160104994
 SphereCollider:
   m_ObjectHideFlags: 1

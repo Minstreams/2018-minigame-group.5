@@ -127,6 +127,11 @@ namespace GameSystem
             return delay;
         }
 
+        public static void SimpleLoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+
 
         //[RuntimeInitializeOnLoadMethod]
         //private static void RuntimeInit()

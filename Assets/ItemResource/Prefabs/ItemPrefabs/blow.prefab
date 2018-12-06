@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4483956780618856}
   - component: {fileID: 135845404656694238}
   - component: {fileID: 114419422140026096}
+  - component: {fileID: 114797594036625272}
   m_Layer: 0
   m_Name: blow
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,8 +157,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
+--- !u!114 &114797594036625272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1088023207945002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 162
+    i1: 120
+    i2: 147
+    i3: 232
+    i4: 152
+    i5: 45
+    i6: 173
+    i7: 36
+    i8: 8
+    i9: 82
+    i10: 230
+    i11: 176
+    i12: 95
+    i13: 72
+    i14: 242
+    i15: 213
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135845404656694238
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4341056201365480}
   - component: {fileID: 135644241416005724}
   - component: {fileID: 114343976977549140}
+  - component: {fileID: 114057756921501710}
   m_Layer: 0
   m_Name: mines
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1803381762879016}
   m_Mesh: {fileID: 43855815821854800, guid: c67a956564affc148b729cf8d04527a4, type: 2}
+--- !u!114 &114057756921501710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1030526037755442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 194
+    i1: 178
+    i2: 137
+    i3: 34
+    i4: 184
+    i5: 220
+    i6: 141
+    i7: 52
+    i8: 187
+    i9: 163
+    i10: 211
+    i11: 39
+    i12: 93
+    i13: 55
+    i14: 94
+    i15: 210
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114343976977549140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,8 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
 --- !u!135 &135644241416005724
 SphereCollider:
   m_ObjectHideFlags: 1

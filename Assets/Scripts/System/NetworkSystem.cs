@@ -21,32 +21,31 @@ namespace GameSystem
                 return _discovery;
             }
         }
-        private static void StartHost()
+        public static void StartHost()
         {
             discovery.Initialize();
             discovery.StartAsServer();
             NetworkManager.singleton.StartHost();
         }
-        public static void Start()
+        public static void StartClient()
         {
             discovery.Initialize();
             discovery.StartAsClient();
-            StartCoroutine(Waiting());
         }
 
-        private static IEnumerator Waiting()
-        {
-            yield return new WaitForSeconds(2);
-            if (discovery.broadcastsReceived != null && discovery.broadcastsReceived.Count == 0)
-            {
-                discovery.StopBroadcast();
-                StartHost();
-            }
-            else
-            {
-                discovery.StopBroadcast();
-            }
-        }
+        //private static IEnumerator Waiting()
+        //{
+        //    yield return new WaitForSeconds(2);
+        //    if (discovery.broadcastsReceived != null && discovery.broadcastsReceived.Count == 0)
+        //    {
+        //        discovery.StopBroadcast();
+        //        StartHost();
+        //    }
+        //    else
+        //    {
+        //        discovery.StopBroadcast();
+        //    }
+        //}
 
         public static void QuitNetworking()
         {
@@ -62,8 +61,7 @@ namespace GameSystem
         }
 
         //Property
-        public static PenguinController LocalPlayer { get { return PenguinController.localPenguin; } }
-        public static bool IsServer { get { return PenguinController.localPenguin.isServer; } }
+        public static bool IsServer { get { return PenguinController.localPenguin == null ? false : PenguinController.localPenguin.isServer; } }
 
         public static List<PenguinController> playerList = new List<PenguinController>();
     }

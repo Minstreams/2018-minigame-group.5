@@ -38,9 +38,10 @@ GameObject:
   - component: {fileID: 4809671242147004}
   - component: {fileID: 135924290045826290}
   - component: {fileID: 114167098123769630}
+  - component: {fileID: 114220503782307790}
   m_Layer: 0
   m_Name: baseball
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,8 +126,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   ammo: 0
-  theItem: {fileID: 0}
+  item: {fileID: 0}
+--- !u!114 &114220503782307790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852417486951480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 54
+    i1: 158
+    i2: 94
+    i3: 167
+    i4: 53
+    i5: 132
+    i6: 234
+    i7: 36
+    i8: 137
+    i9: 200
+    i10: 24
+    i11: 251
+    i12: 190
+    i13: 75
+    i14: 32
+    i15: 155
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135924290045826290
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -10,7 +10,8 @@ namespace GameSystem
         [CreateAssetMenu(fileName = "HarmSystemSetting", menuName = "系统配置文件/Harm System Setting")]
         public class HarmSystemSetting : ScriptableObject
         {
-
+            public float harmFactor = 0.01f;
+            public GameObject harmFloatingNumber;
         }
     }
 }
