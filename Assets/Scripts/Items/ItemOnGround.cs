@@ -14,6 +14,7 @@ public class ItemOnGround : MonoBehaviour
     public int ammo;
     public Item item;
 
+    public float backPushRate = 1;
     public event System.Action onPicked;
 
     private void Awake()
@@ -104,6 +105,7 @@ public class ItemOnGround : MonoBehaviour
                 if (timer - lastFuncTime >= item.deltaTime)
                 {
                     lastFuncTime = timer;
+                    owner.ConstantSpeed(-item.force * gun.transform.forward * backPushRate);
                     gun.Fire();
                     model.BackPower();
                     if (debug) Debug.Log("Fire!");

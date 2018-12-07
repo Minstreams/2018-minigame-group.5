@@ -11,6 +11,7 @@ public class ItemGun : MonoBehaviour
     [HideInInspector]
     public AudioSource asource;
     public List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+    public int ammoNum = 1;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class ItemGun : MonoBehaviour
         if (target == null || !target.CompareTag("Player")) return;
 
         part.GetCollisionEvents(other, collisionEvents);
-        ; item.OnAmmoHit(target, collisionEvents[0].velocity.normalized, collisionEvents[0].intersection);
+        item.OnAmmoHit(target, collisionEvents[0].velocity.normalized, collisionEvents[0].intersection);
 
         //int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
 
@@ -47,7 +48,8 @@ public class ItemGun : MonoBehaviour
 
     public void Fire()
     {
-        part.Emit(1);
-        asource.Play();
+        part.Emit(ammoNum);
+        if (asource.clip != null)
+            asource.Play();
     }
 }
