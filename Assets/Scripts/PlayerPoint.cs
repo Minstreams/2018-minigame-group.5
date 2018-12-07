@@ -18,7 +18,7 @@ public class PlayerPoint : MonoBehaviour
     private void OnDrawGizmos()
     {
         UnityEditor.Handles.color = Color.green;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, 4);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, 2);
         UnityEditor.Handles.color = Color.white;
     }
 #endif
