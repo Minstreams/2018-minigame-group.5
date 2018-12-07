@@ -31,6 +31,7 @@ public class PosShaper : NetworkBehaviour
     public float crawlRate = 0.96f;
     public float standRate = 0.974f;
 
+    public float drag = 1;
     [ContextMenu("Record")]
     public void Record()
     {
@@ -80,6 +81,10 @@ public class PosShaper : NetworkBehaviour
     [ContextMenu("EndShape"), ClientRpc]
     public void RpcEndShape()
     {
+        foreach (RecordUnit ru in units)
+        {
+            ru.rigidbody.drag = 0;
+        }
         StopAllCoroutines();
     }
 
@@ -115,6 +120,10 @@ public class PosShaper : NetworkBehaviour
 
     private IEnumerator Stand()
     {
+        foreach (RecordUnit ru in units)
+        {
+            ru.rigidbody.drag = drag;
+        }
         rate = crawlRate;
         float timer = 0;
         while (timer < standTime)

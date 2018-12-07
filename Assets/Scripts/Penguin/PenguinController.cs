@@ -233,6 +233,13 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
             float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h)); //速度大小
 
+            //播放行走动画
+            //用二次函数模拟缓动
+            anim.SetFloat("speed", speedForward * (2 - speedForward));
+            //播放转身动画
+            //用三次函数模拟双向缓动
+            anim.SetFloat("turn", turnSpeed * (2 + turnSpeed) * (2 - turnSpeed));
+
             float sf = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
             float ts = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
 
@@ -270,6 +277,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         LevelSystem.RpcReborn(this, position);
         simpleGravity.Init();
         simpleGravity.enabled = false;
+        anim.enabled = false;
         gameObject.SetActive(false);
         ResetHips();
         gameObject.SetActive(true);
@@ -361,6 +369,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
         foreach (Rigidbody r in rids)
         {
+            if (debug) Debug.Log("Push[slideForce:" + slideForce + "][power:" + power + "][LogPower:" + Mathf.Log(power, 2) + "]");
             r.AddForce(transform.forward * (slideForce + Mathf.Log(power, 2)), ForceMode.Impulse);
         }
     }
