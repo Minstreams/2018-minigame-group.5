@@ -157,5 +157,5 @@ MonoBehaviour:
   _startMenu: StartMenu
   _loading: Loading
   test: 1
-  debug: 1
+  debug: 0
   dataToSave: []

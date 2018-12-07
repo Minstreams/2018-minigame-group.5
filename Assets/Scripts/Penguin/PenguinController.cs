@@ -319,7 +319,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     private void RpcWalk()
     {
         anim.enabled = true;
-        anim.SetBool("Slide", false);
         simpleGravity.enabled = true;
         sync.syncRigidbody = false;
         {
@@ -367,6 +366,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     private void RpcBeforeSlide() //Init here
     {
         anim.SetBool("Slide", true);
+        anim.SetBool("Brake", false);
     }
     [Command]
     private void CmdPush(float power)
@@ -421,6 +421,25 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float slideAnimLength = 1;
 
     [ClientRpc]
+    public void RpcForceSlide()
+    {
+        if (CurrentState == PenguinState.Slide) return;
+        anim.SetBool("Slide", true);
+        anim.SetBool("Brake", false);
+        pushRecorder.Record();
+        anim.enabled = false;
+        pushFormer.Read();
+        pushRecorder.Read();
+        simpleGravity.enabled = false;
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody r in rigidbodies)
+        {
+            r.velocity = Vector3.zero;
+        }
+        sync.syncRigidbody = true;
+        if (NetworkSystem.IsServer) { StopAllCoroutines(); StartCoroutine(Slide()); }
+    }
+    [ClientRpc]
     private void RpcSlide() //Init here
     {
         simpleGravity.enabled = false;
@@ -472,8 +491,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
                 if (debug) Debug.Log("Trying to Stand up[velocity:" + hips.GetComponent<Rigidbody>().velocity.magnitude + "][flip:" + posShaper.flip + "]");
                 if (!posShaper.flip && hips.GetComponent<Rigidbody>().velocity.magnitude < minStandSpeed)
                 {
-                    anim.SetBool("Slide", false);
+                    anim.SetBool("Brake", true);
                     StartCoroutine(Walk());
+
+                    yield return new WaitForSeconds(0.2f);
+                    anim.SetBool("Slide", false);
                 }
                 else
                 {
