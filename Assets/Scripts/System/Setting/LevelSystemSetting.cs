@@ -19,6 +19,9 @@ namespace GameSystem
             [Header("视野随着转身而旋转的比例")]
             public float viewTurnDragFactor = 0.1f;
             public float viewDragSensitivity = 1f;
+
+            [Header("所有关卡，必须至少有两关")]
+            public List<string> levels = new List<string>();
         }
     }
 }

@@ -17,3 +17,6 @@ MonoBehaviour:
   dieTimeScale: 0.1
   viewTurnDragFactor: 0.1
   viewDragSensitivity: 1
+  levels:
+  - Level1
+  - Level2

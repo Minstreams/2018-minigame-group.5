@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4991450765637652}
   - component: {fileID: 54756937446165462}
   - component: {fileID: 145510577017895070}
-  - component: {fileID: 65265210372656086}
+  - component: {fileID: 135990405591062622}
   m_Layer: 0
   m_Name: Bone.001
   m_TagString: Untagged
@@ -155,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1201967514287240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.31, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4787892870972820}
@@ -220,18 +220,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &65265210372656086
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071089920122274}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.012, y: 0.012, z: 0.012}
-  m_Center: {x: 0, y: 0.001, z: 0}
 --- !u!95 &95244079186704016
 Animator:
   serializedVersion: 3
@@ -250,6 +238,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!135 &135990405591062622
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1071089920122274}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.008
+  m_Center: {x: 0, y: -0.001, z: 0}
 --- !u!137 &137561532750141228
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -131,6 +131,7 @@ namespace GameSystem
 
         private IEnumerator _InGameLevel()
         {
+            while (LevelSystem.LocalPlayer == null) yield return 0;
             LevelSystem.StartDragView();
             LevelSystem.StartNewLevel();
             ResetGameMessage();

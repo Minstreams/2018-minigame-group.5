@@ -457,6 +457,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1949347910817922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4533043758457578}
+  - component: {fileID: 114395408599587854}
+  - component: {fileID: 114778463666351134}
+  m_Layer: 0
+  m_Name: Recorder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1960267555899940
 GameObject:
   m_ObjectHideFlags: 1
@@ -678,6 +695,7 @@ Transform:
   m_Children:
   - {fileID: 4582379540002740}
   - {fileID: 4476869661641624}
+  - {fileID: 4533043758457578}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -693,6 +711,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4582379540002740}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4533043758457578
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1949347910817922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4510734322444444}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4539812253753140
 Transform:
@@ -1132,9 +1163,12 @@ MonoBehaviour:
   itemParent: {fileID: 4469326681864290}
   walkSpeed: 1
   walkStartHipsOffset: {x: 0.005245367, y: 0.07665193, z: 0.08738233}
-  beforeSlideAcceleration: 1
-  beforeSlideMaxPower: 10
-  slideForce: 20
+  beforeSlideAcceleration: 12
+  beforeSlideMaxPower: 18
+  powerPoint: 1.3
+  pushFormer: {fileID: 114395408599587854}
+  pushRecorder: {fileID: 114778463666351134}
+  slideForce: 10
   slideAnimLength: 0.5
   minStandSpeed: 5
   harm: 0
@@ -1283,6 +1317,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   penguin: {fileID: 0}
+--- !u!114 &114395408599587854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1949347910817922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95801efac8521284ba07f43d6302dedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  units:
+  - transform: {fileID: 4385333557276804}
+    localPosition: {x: -0, y: 0.104494385, z: -0.0060558664}
+    localRotation: {x: -0.028941007, y: 0.00001761238, z: 0.00003491913, w: 0.99958116}
+  - transform: {fileID: 4751160342932198}
+    localPosition: {x: -0, y: 0.122114755, z: 0}
+    localRotation: {x: 5.565589e-26, y: -8.20264e-14, z: 6.785119e-13, w: 1}
+  - transform: {fileID: 4817264668978360}
+    localPosition: {x: -0.113364674, y: 0.12951516, z: -0.0011833389}
+    localRotation: {x: 0.54545057, y: -0.44896668, z: 0.5501084, w: 0.44530147}
+  - transform: {fileID: 4564633436120138}
+    localPosition: {x: -0, y: 0.15700452, z: -0.0000000033639826}
+    localRotation: {x: 0.028940571, y: 3.6034655e-14, z: 2.2851222e-13, w: 0.99958116}
+  - transform: {fileID: 4930300410026074}
+    localPosition: {x: 0.113364674, y: 0.1295625, z: -0.0020001628}
+    localRotation: {x: -0.54332435, y: -0.45053703, z: 0.55202514, w: -0.4439406}
 --- !u!114 &114397831475502168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1397,6 +1458,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   penguin: {fileID: 0}
+--- !u!114 &114778463666351134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1949347910817922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4de7633801a7a458a0e8e0d7e4c8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  units:
+  - rigidbody: {fileID: 54002856605285600}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  - rigidbody: {fileID: 54811205878901718}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  - rigidbody: {fileID: 54328373041618288}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  - rigidbody: {fileID: 54358938365828688}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  - rigidbody: {fileID: 54448407827325308}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  - rigidbody: {fileID: 54223280319944542}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &114787003272342880
 MonoBehaviour:
   m_ObjectHideFlags: 1

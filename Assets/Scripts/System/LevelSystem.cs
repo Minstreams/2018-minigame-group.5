@@ -28,6 +28,17 @@ namespace GameSystem
             return startPoints[startPointIndex].position + Vector3.up * 50;
         }
 
+        private static int sceneIndex = -1;
+        public static int GetNextSceneIndex()
+        {
+            int next;
+            do
+                next = Random.Range(0, Setting.levels.Count);
+            while (next == sceneIndex);
+            sceneIndex = next;
+            return sceneIndex;
+        }
+
 
         private static int playerAliveNum = 0;
         //Rpc Functions
@@ -57,7 +68,7 @@ namespace GameSystem
 
         public static void RpcReborn(PenguinController penguin, Vector3 position)
         {
-            Debug.Log("RpcReborn " + penguin + "[playerAliveNum:" + playerAliveNum + "]");
+            Debug.Log("RpcReborn " + penguin + "[playerNum:" + PlayerList.Count + "]");
             playerAliveNum++;
             if (penguin.isLocalPlayer) camFollowTarget = penguin.camPoint;
             //Reset the position
@@ -111,14 +122,21 @@ namespace GameSystem
 
 
 
-
+        //Only On Server
         public static void StartNewLevel()
         {
             Debug.Log("StartNewLevel[playerNum:" + PlayerList.Count + "]");
             //TODO:加载场景
+            LocalPlayer.RpcLoadScene(GetNextSceneIndex());
             playerAliveNum = 0;
             foreach (PenguinController p in PlayerList) p.RpcReborn(GetNextStartPoint());
 
+        }
+
+        public static void RpcLoadScene(int index)
+        {
+            Debug.Log("RpcLoadScene[Scene:" + Setting.levels[index] + "]");
+            SceneSystem.SimpleLoadScene(Setting.levels[index]);
         }
 
     }

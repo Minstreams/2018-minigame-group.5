@@ -198,21 +198,32 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
     //状态机-----------------------------------------------
-    [SyncVar]
     private float speedForward;
-    [SyncVar]
     private float turnSpeed;
-    [SyncVar]
     private bool slideButton;
-    [SyncVar]
     private bool brakeButton;
     [Command]
     public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb)
+    {
+        RpcRecordInputAxis(sf, ts, sb, bb);
+    }
+    [ClientRpc]
+    public void RpcRecordInputAxis(float sf, float ts, bool sb, bool bb)
     {
         speedForward = sf;
         turnSpeed = ts;
         slideButton = sb;
         brakeButton = bb;
+
+        if (!isLocalPlayer)
+        {
+            //播放行走动画
+            //用二次函数模拟缓动
+            anim.SetFloat("speed", sf * (2 - sf));
+            //播放转身动画
+            //用三次函数模拟双向缓动
+            anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
+        }
     }
     LinkedListNode<Coroutine> inputCoroutine = null;
     private IEnumerator RecordInputAxis()
@@ -233,22 +244,24 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
             float speedAbs = Mathf.Max(Mathf.Abs(v), Mathf.Abs(h)); //速度大小
 
-            //播放行走动画
-            //用二次函数模拟缓动
-            anim.SetFloat("speed", speedForward * (2 - speedForward));
-            //播放转身动画
-            //用三次函数模拟双向缓动
-            anim.SetFloat("turn", turnSpeed * (2 + turnSpeed) * (2 - turnSpeed));
+
 
             float sf = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
             float ts = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
 
+            //播放行走动画
+            //用二次函数模拟缓动
+            anim.SetFloat("speed", sf * (2 - sf));
+            //播放转身动画
+            //用三次函数模拟双向缓动
+            anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
             if (isServer)
             {
                 slideButton = InputSystem.GetInput(InputCode.Slide);
                 brakeButton = InputSystem.GetInput(InputCode.Brake);
                 speedForward = sf;
                 turnSpeed = ts;
+
             }
             else
             {
@@ -292,7 +305,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         RpcReborn(LevelSystem.GetNextStartPoint());
     }
 
-
+    [ClientRpc]
+    public void RpcLoadScene(int index)
+    {
+        LevelSystem.RpcLoadScene(index);
+    }
 
 
     //Walk~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
@@ -331,12 +348,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
                 yield break;
             }
 
-            //播放行走动画
-            //用二次函数模拟缓动
-            anim.SetFloat("speed", speedForward * (2 - speedForward));
-            //播放转身动画
-            //用三次函数模拟双向缓动
-            anim.SetFloat("turn", turnSpeed * (2 + turnSpeed) * (2 - turnSpeed));
         }
     }
 
@@ -348,6 +359,10 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float beforeSlideAcceleration;
     public float beforeSlideMaxPower;
     private float beforeSlidePower;
+    public float powerPoint = 1.3f;
+
+    public PosRecorder pushFormer;
+    public RidRecorder pushRecorder;
     [ClientRpc]
     private void RpcBeforeSlide() //Init here
     {
@@ -361,7 +376,10 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     [ClientRpc]
     private void RpcPush(float power)
     {
+        pushRecorder.Record();
         anim.enabled = false;
+        pushFormer.Read();
+        pushRecorder.Read();
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody r in rigidbodies)
         {
@@ -369,14 +387,14 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
         foreach (Rigidbody r in rids)
         {
-            if (debug) Debug.Log("Push[slideForce:" + slideForce + "][power:" + power + "][LogPower:" + Mathf.Log(power, 2) + "]");
-            r.AddForce(transform.forward * (slideForce + Mathf.Log(power, 2)), ForceMode.Impulse);
+            if (debug) Debug.Log("Push[slideForce:" + slideForce + "][power:" + power + "][PowPower:" + Mathf.Pow(power, powerPoint) + "]");
+            r.AddForce(transform.forward * (slideForce + Mathf.Pow(power, powerPoint)), ForceMode.Impulse);
         }
     }
     private IEnumerator BeforeSlide()   //滑行蓄力
     {
         CurrentState = PenguinState.BeforeSlide;
-        beforeSlidePower = 0;
+        beforeSlidePower = 1;
         RpcBeforeSlide();
         while (true)
         {
@@ -451,6 +469,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             if (!brakeButton)
             {
                 posShaper.RpcEndShape();
+                if (debug) Debug.Log("Trying to Stand up[velocity:" + hips.GetComponent<Rigidbody>().velocity.magnitude + "][flip:" + posShaper.flip + "]");
                 if (!posShaper.flip && hips.GetComponent<Rigidbody>().velocity.magnitude < minStandSpeed)
                 {
                     anim.SetBool("Slide", false);
