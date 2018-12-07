@@ -368,6 +368,7 @@ MonoBehaviour:
   highSpring: 10000
   bounceValue: 0.0008
   resetValue: 0.002
+  extraForce: 12
 --- !u!137 &137005824595803996
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

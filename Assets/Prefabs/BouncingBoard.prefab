@@ -256,7 +256,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1514140575287736}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4470825544541960}
@@ -269,8 +269,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295097572082292}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.8200343, y: 0, z: -4.7320776}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.8200343, y: 1.4, z: -12.101}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4014081307218306}
@@ -356,6 +356,7 @@ MonoBehaviour:
   highSpring: 5000
   bounceValue: 0.0075
   resetValue: 0.01
+  extraForce: 5
 --- !u!137 &137277934718461654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -467,7 +468,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 54148339638774728}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: 0, y: 0.05, z: 0}
+  m_ConnectedAnchor: {x: 0, y: 0.028, z: 0}
   serializedVersion: 2
   m_Spring: 50
   m_Damper: 0

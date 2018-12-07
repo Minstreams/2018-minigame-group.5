@@ -317,7 +317,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4904302499360302, guid: b4caf751abcfb144e8ee638df219d579, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -12.5
+      value: -12.101
       objectReference: {fileID: 0}
     - target: {fileID: 4904302499360302, guid: b4caf751abcfb144e8ee638df219d579, type: 2}
       propertyPath: m_LocalRotation.x
@@ -342,6 +342,11 @@ Prefab:
     - target: {fileID: 1295097572082292, guid: b4caf751abcfb144e8ee638df219d579, type: 2}
       propertyPath: m_Name
       value: BouncingBoard (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114554727334471194, guid: b4caf751abcfb144e8ee638df219d579,
+        type: 2}
+      propertyPath: extraForce
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4caf751abcfb144e8ee638df219d579, type: 2}
