@@ -31,12 +31,12 @@ namespace GameSystem
 
         public static float GetHorizontalAxis()
         {
-            return Input.GetAxis("Horizontal");
+			return VirtualInput.horizontal;
         }
 
         public static float GetVeticalAxis()
         {
-            return Input.GetAxis("Vertical");
+			return VirtualInput.vertical;
         }
     }
 
