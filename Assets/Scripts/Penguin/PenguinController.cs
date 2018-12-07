@@ -126,7 +126,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
     //道具------------------------------------------------
     public Transform itemParent;
-    private ItemOnGround currentItem;
+    public ItemOnGround currentItem;
 
     private Vector3 GetForwardDir()
     {
@@ -150,9 +150,9 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
     public void Drop()
     {
-        if (currentItem == null) return;
         currentItem.transform.SetParent(null);
-        //TODO
+        currentItem.Drop(aimPos);
+        currentItem = null;
     }
 
 
@@ -242,12 +242,12 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     [SyncVar]
     private Vector3 aimPos;
     [Command]
-    public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap)
+    public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap, bool drop)
     {
-        RpcRecordInputAxis(sf, ts, sb, bb, fb, ap);
+        RpcRecordInputAxis(sf, ts, sb, bb, fb, ap, drop);
     }
     [ClientRpc]
-    public void RpcRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap)
+    public void RpcRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap, bool drop)
     {
         slideButton = sb;
         brakeButton = bb;
@@ -262,7 +262,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             //用三次函数模拟双向缓动
             anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
 
-            if (currentItem != null && fb) currentItem.Func();
+            if (currentItem != null)
+            {
+                if (fb) currentItem.Func();
+                if (drop) Drop();
+            }
         }
     }
     LinkedListNode<Coroutine> inputCoroutine = null;
@@ -302,7 +306,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
                 //播放转身动画
                 //用三次函数模拟双向缓动
                 anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
-                if (currentItem != null && fb) currentItem.Func();
+                if (currentItem != null)
+                {
+                    if (fb) currentItem.Func();
+                    if (drop) Drop();
+                }
             }
             if (isServer)
             {
@@ -312,7 +320,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             }
             else
             {
-                CmdRecordInputAxis(sf, ts, InputSystem.GetInput(InputCode.Slide), InputSystem.GetInput(InputCode.Brake), fb, ap);
+                CmdRecordInputAxis(sf, ts, InputSystem.GetInput(InputCode.Slide), InputSystem.GetInput(InputCode.Brake), fb, ap, drop);
             }
             //Debug
             if (debug)

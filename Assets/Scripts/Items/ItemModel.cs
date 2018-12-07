@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSystem;
 
 public class ItemModel : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class ItemModel : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.localPosition += returnRate * (startLocalPos - transform.localPosition);
+        if (!isRock)
+            transform.localPosition += returnRate * (startLocalPos - transform.localPosition);
     }
 
     public void BackPower()
@@ -25,5 +27,48 @@ public class ItemModel : MonoBehaviour
         transform.localPosition += backPower;
     }
 
+    //Rock
+    private bool isRock = false;
+    public void StartAsRock()
+    {
+        isRock = true;
+    }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isRock) return;
+        if (collision.collider.CompareTag("Player"))
+        {
+            PenguinController penguin = collision.collider.GetComponentInParent<PenguinController>();
+            if (penguin == item.owner)
+            {
+                return;
+            }
+            else if (NetworkSystem.IsServer)
+            {
+                penguin.OnServerHarm(new HarmSystem.HarmInformation(item.item.force, item.item.harm, item.item.destroyPower, -collision.impulse.normalized, collision.contacts[0].point));
+                StopRock();
+            }
+        }
+        else
+        {
+            if (item.owner != null)
+            {
+                item.owner = null;
+                return;
+            }
+            else
+            {
+                StopRock();
+            }
+        }
+    }
+    public void StopRock()
+    {
+        isRock = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        item.transform.position = transform.position - item.transform.rotation * startLocalPos;
+        transform.localPosition = startLocalPos;
+        item.BecomePickable();
+    }
 }

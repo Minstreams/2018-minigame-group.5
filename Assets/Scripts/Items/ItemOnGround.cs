@@ -50,8 +50,9 @@ public class ItemOnGround : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (state == ItemSystem.ItemState.pickable && other.tag == "Player" && !isPicked)
+        if (state == ItemSystem.ItemState.pickable && other.tag == "Player" && !isPicked && other.GetComponentInParent<PenguinController>().currentItem == null)
         {
+            isPicked = true;
             if (NetworkSystem.IsServer) other.GetComponentInParent<PenguinController>().PickUp(this);
             if (onPicked != null) onPicked();
             Destroy(gameObject);
@@ -71,15 +72,25 @@ public class ItemOnGround : MonoBehaviour
     private PenguinController _owner;
     public PenguinController owner
     {
-        private get { return _owner; }
+        get { return _owner; }
         set
         {
-            _owner = value;
             Collider c = model.GetComponent<Collider>();
-            foreach (Rigidbody r in value.rigidbodies)
+            if (value == null && _owner != null)
             {
-                Physics.IgnoreCollision(r.GetComponent<Collider>(), c);
+                foreach (Rigidbody r in _owner.rigidbodies)
+                {
+                    Physics.IgnoreCollision(r.GetComponent<Collider>(), c, false);
+                }
             }
+            else
+            {
+                foreach (Rigidbody r in value.rigidbodies)
+                {
+                    Physics.IgnoreCollision(r.GetComponent<Collider>(), c, true);
+                }
+            }
+            _owner = value;
         }
     }
 
@@ -111,10 +122,23 @@ public class ItemOnGround : MonoBehaviour
             target.OnServerHarm(new HarmSystem.HarmInformation(item.ammoForce, item.ammoHarm, item.ammoDestroyPower, direction, position));
     }
 
+    public void Drop(Vector3 aimPoint)
+    {
+        state = ItemSystem.ItemState.rock;
+        Rigidbody modelR = model.GetComponent<Rigidbody>();
+        modelR.isKinematic = false;
+        modelR.AddForce(ItemSystem.ItemDropSpeed * (aimPoint - transform.position).normalized, ForceMode.VelocityChange);
+        model.StartAsRock();
+    }
 
 
+    //Rock~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
+    public void BecomePickable()
+    {
+        state = ItemSystem.ItemState.pickable;
+        StartCoroutine(Rotate());
+    }
 
 
 

@@ -33,6 +33,7 @@ namespace GameSystem
         }
 
         public static float PickRange { get { return Setting.pickRange; } }
+        public static float ItemDropSpeed { get { return Setting.itemDropSpeed; } }
 
         public static Item GetItem(int index)
         {

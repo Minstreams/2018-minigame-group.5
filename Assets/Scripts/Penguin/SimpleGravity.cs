@@ -67,6 +67,7 @@ public class SimpleGravity : NetworkBehaviour
     public float adjustHeightUnit = 0.02f;
     private IEnumerator AdjustHeight()
     {
+        Debug.Log("Height Adjusting");
         yield return 0;
         while (feetOnGround > 0)
         {

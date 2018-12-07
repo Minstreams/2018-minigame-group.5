@@ -11,6 +11,7 @@ namespace GameSystem
         {
             public float pickRange = 1;
             public List<Item> itemList = new List<Item>();
+            public float itemDropSpeed = 8;
         }
     }
 }
