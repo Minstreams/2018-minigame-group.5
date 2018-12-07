@@ -9,7 +9,7 @@ using Cinemachine;
 /// <summary>
 /// 企鹅控制器
 /// </summary>
-public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
+public class PenguinController : HarmSystem.HitTarget
 {
     //三层结构
     //底层：企鹅状态切换&动画播放&道具系统
@@ -276,8 +276,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         {
             yield return 0;
 
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            float h = InputSystem.GetHorizontalAxis();
+            float v = InputSystem.GetVeticalAxis();
 
 
             //计算前进方向
@@ -547,21 +547,9 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
     //伤害计算
     public float harm = 0;
-    public float moveForceFactor = 5f;
-    public HarmSystem.HarmInformation GetHarmInformation(Collision collision)
-    {
-        switch (CurrentState)
-        {
-            case PenguinState.Walk:
-            case PenguinState.BeforeSlide:
-                return new HarmSystem.HarmInformation(100, 0, 0, collision.impulse.normalized, collision.contacts[0].point);
-            case PenguinState.Slide:
-            case PenguinState.Brake:
-                return new HarmSystem.HarmInformation(collision.impulse.magnitude * moveForceFactor, collision.impulse.magnitude * 100, 0, collision.relativeVelocity.normalized, collision.contacts[0].point);
-            default:
-                return new HarmSystem.HarmInformation();
-        }
-    }
+    public float causeForce;
+    public float causeHarm;
+    public float causeDestroyPower;
 
     public override void OnServerHarm(HarmSystem.HarmInformation information)
     {
@@ -573,17 +561,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public void RpcOnHarm(HarmSystem.HarmInformation information)
     {
         Debug.Log(this.name + " is hitted. [force:" + information.force + "][harm:" + information.harm + "][destroyPower:" + information.destroyPower + "][direction:" + information.direction + "]");
-        switch (CurrentState)
-        {
-            case PenguinState.Walk:
-            case PenguinState.BeforeSlide:
-            case PenguinState.Slide:
-            case PenguinState.Brake:
-            default:
-                harm += information.harm;
-                HarmSystem.ShowFloatingNumber(information.force.ToString(), information.position);
-                hips.GetComponent<Rigidbody>().AddForce(information.direction * information.force * harm * HarmSystem.HarmFactor, ForceMode.Impulse);
-                break;
-        }
+        HarmSystem.ShowFloatingNumber(information.force + " * " + information.harm + "%", information.position);
+        harm += information.harm;
+        ImpulseSpeed(information.direction * information.force * harm * 0.01f * HarmSystem.HarmFactor);
     }
 }

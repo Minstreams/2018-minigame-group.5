@@ -37,14 +37,6 @@ namespace GameSystem
         }
 
         /// <summary>
-        /// 在天上飞的武器，用来计算碰撞伤害
-        /// </summary>
-        public interface FlyingAmmo
-        {
-            HarmInformation GetHarmInformation(Collision collision);
-        }
-
-        /// <summary>
         /// 被击中的目标物体
         /// </summary>
         public class HitTarget : NetworkBehaviour

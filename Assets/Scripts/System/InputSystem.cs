@@ -29,7 +29,15 @@ namespace GameSystem
             }
         }
 
+        public static float GetHorizontalAxis()
+        {
+            return Input.GetAxis("Horizontal");
+        }
 
+        public static float GetVeticalAxis()
+        {
+            return Input.GetAxis("Vertical");
+        }
     }
 
     /// <summary>
