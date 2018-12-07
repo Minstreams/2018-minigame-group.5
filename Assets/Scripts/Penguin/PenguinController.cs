@@ -64,7 +64,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     private void ResetHips()
     {
         posRecorder.Read();
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody r in rigidbodies)
         {
             r.velocity = Vector3.zero;
@@ -78,9 +77,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     private SimpleGravity simpleGravity;
     private PosRecorder posRecorder;
     private PosShaper posShaper;
+    public Rigidbody[] rigidbodies;
     private void Awake()
     {
         Debug.Log("Penguin Awake!");
+        rigidbodies = GetComponentsInChildren<Rigidbody>();
         anim = GetComponent<Animator>();
         sync = GetComponent<SyncLerpMove>();
         posRecorder = GetComponent<PosRecorder>();
@@ -194,7 +195,67 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
     }
 
+    [Server]
+    public void ConstantSpeed(Vector3 s)
+    {
+        RpcConstantSpeed(s);
+    }
 
+    [ClientRpc]
+    private void RpcConstantSpeed(Vector3 s)
+    {
+        if (debug) Debug.Log("RpcConstantSpeed[s:" + s + "]");
+        switch (CurrentState)
+        {
+            case PenguinState.Walk:
+            case PenguinState.BeforeSlide:
+                transform.Translate(s * Time.deltaTime, Space.World);
+                break;
+            case PenguinState.Slide:
+            case PenguinState.Brake:
+                foreach (Rigidbody r in rigidbodies)
+                {
+                    r.AddForce(s, ForceMode.Acceleration);
+                }
+                break;
+        }
+    }
+
+    [Server]
+    public void ImpulseSpeed(Vector3 s)
+    {
+        RpcImpulseSpeed(s);
+    }
+
+    [ClientRpc]
+    private void RpcImpulseSpeed(Vector3 s)
+    {
+        if (debug) Debug.Log("RpcImpulseSpeed[s:" + s + "]");
+        switch (CurrentState)
+        {
+            case PenguinState.Walk:
+            case PenguinState.BeforeSlide:
+                if (CurrentState == PenguinState.Slide) return;
+                anim.SetBool("Slide", true);
+                anim.SetBool("Brake", false);
+                pushRecorder.Record();
+                anim.enabled = false;
+                pushFormer.Read();
+                pushRecorder.Read();
+                simpleGravity.enabled = false;
+                foreach (Rigidbody r in rigidbodies)
+                {
+                    r.velocity = Vector3.zero;
+                }
+                sync.syncRigidbody = true;
+                if (NetworkSystem.IsServer) { StopAllCoroutines(); StartCoroutine(Slide()); }
+                break;
+        }
+        foreach (Rigidbody r in rigidbodies)
+        {
+            r.AddForce(s, ForceMode.VelocityChange);
+        }
+    }
 
 
     //状态机-----------------------------------------------
@@ -380,14 +441,13 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         anim.enabled = false;
         pushFormer.Read();
         pushRecorder.Read();
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody r in rigidbodies)
         {
             r.velocity = Vector3.zero;
         }
+        if (debug) Debug.Log("Push[slideForce:" + slideForce + "][power:" + power + "][PowPower:" + Mathf.Pow(power, powerPoint) + "]");
         foreach (Rigidbody r in rids)
         {
-            if (debug) Debug.Log("Push[slideForce:" + slideForce + "][power:" + power + "][PowPower:" + Mathf.Pow(power, powerPoint) + "]");
             r.AddForce(transform.forward * (slideForce + Mathf.Pow(power, powerPoint)), ForceMode.Impulse);
         }
     }
@@ -420,25 +480,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public float slideForce;
     public float slideAnimLength = 1;
 
-    [ClientRpc]
-    public void RpcForceSlide()
-    {
-        if (CurrentState == PenguinState.Slide) return;
-        anim.SetBool("Slide", true);
-        anim.SetBool("Brake", false);
-        pushRecorder.Record();
-        anim.enabled = false;
-        pushFormer.Read();
-        pushRecorder.Read();
-        simpleGravity.enabled = false;
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody r in rigidbodies)
-        {
-            r.velocity = Vector3.zero;
-        }
-        sync.syncRigidbody = true;
-        if (NetworkSystem.IsServer) { StopAllCoroutines(); StartCoroutine(Slide()); }
-    }
     [ClientRpc]
     private void RpcSlide() //Init here
     {

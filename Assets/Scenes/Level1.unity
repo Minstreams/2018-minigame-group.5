@@ -343,11 +343,6 @@ Prefab:
       propertyPath: m_Name
       value: BouncingBoard (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 114554727334471194, guid: b4caf751abcfb144e8ee638df219d579,
-        type: 2}
-      propertyPath: extraForce
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4caf751abcfb144e8ee638df219d579, type: 2}
   m_IsPrefabAsset: 0

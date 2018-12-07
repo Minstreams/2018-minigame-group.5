@@ -38,12 +38,7 @@ public class BouncingBoard : MonoBehaviour
             if (transform.localPosition.y < bounceValue && attachedPenguin != null)
             {
                 if (debug) Debug.Log("Bounce!");
-                if (NetworkSystem.IsServer) attachedPenguin.RpcForceSlide();
-                Rigidbody[] rigidbodies = attachedPenguin.GetComponentsInChildren<Rigidbody>();
-                foreach (Rigidbody r in rigidbodies)
-                {
-                    r.AddForce(parent.up * extraForce, ForceMode.VelocityChange);
-                }
+                if (NetworkSystem.IsServer) attachedPenguin.ImpulseSpeed(parent.up * extraForce);
                 sj.spring = highSpring;
                 bouncing = true;
             }
