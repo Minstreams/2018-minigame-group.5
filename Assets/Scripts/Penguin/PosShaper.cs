@@ -16,7 +16,7 @@ public class PosShaper : NetworkBehaviour
     public RecordUnit[] units;
     public Rigidbody root;
     public Quaternion rootHeadUpRot;
-    private Quaternion yRot;
+    public Quaternion yRot;
     private Quaternion targetRot;
     [Range(0, 1)]
     public float rate;

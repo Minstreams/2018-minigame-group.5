@@ -138,7 +138,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     {
         if (currentItem != null) return;
         RpcPickUp(new ItemSystem.ItemGenerationInformation(false, ItemSystem.ItemState.onHand, item.ammo, item.item));
-        item.RpcPicked();
     }
 
     [ClientRpc]
@@ -240,6 +239,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     private bool slideButton;
     private bool brakeButton;
     private bool dropButton;
+    [SyncVar]
     private Vector3 aimPos;
     [Command]
     public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap)
@@ -289,9 +289,10 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             float sf = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);   //speed forward
             float ts = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;   //turn speed
             bool fb = InputSystem.GetInput(InputCode.Func); // func button
-            Vector3 ap = Camera.main.transform.position  + Camera.main.transform.forward * 5;
+            Vector3 ap = Camera.main.transform.position + Camera.main.transform.forward * 7;
             //ap.y = ap.y * 0.5f + 0.25f;
 
+            bool drop = InputSystem.GetInput(InputCode.Drop);
 
             if (!isDead)
             {
@@ -336,6 +337,11 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     public void RpcReborn(Vector3 position) //Called by Level System
     {
         isDead = false;
+        if (currentItem != null)
+        {
+            Destroy(currentItem.gameObject);
+            currentItem = null;
+        }
         LevelSystem.RpcReborn(this, position);
         simpleGravity.Init();
         simpleGravity.enabled = false;
@@ -512,8 +518,9 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             if (!brakeButton)
             {
                 posShaper.RpcEndShape();
-                if (debug) Debug.Log("Trying to Stand up[velocity:" + hips.GetComponent<Rigidbody>().velocity.magnitude + "][flip:" + posShaper.flip + "]");
-                if (!posShaper.flip && hips.GetComponent<Rigidbody>().velocity.magnitude < minStandSpeed)
+                Vector3 v = hips.GetComponent<Rigidbody>().velocity + Vector3.up * 2.5f - posShaper.yRot * Vector3.forward * 1.5f;
+                if (debug) Debug.Log("Trying to Stand up[velocity:" + v + v.magnitude + "][flip:" + posShaper.flip + "]");
+                if (!posShaper.flip && v.magnitude < minStandSpeed)
                 {
                     anim.SetBool("Brake", true);
                     StartCoroutine(Walk());

@@ -1109,7 +1109,7 @@ Animator:
   m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 0576582a63bfd8244aa2b244a03b1582, type: 3}
   m_Controller: {fileID: 9100000, guid: 8ffc7541f20824f42981eb1ee416db29, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
@@ -1160,6 +1160,7 @@ MonoBehaviour:
   - {fileID: 54223280319944542}
   - {fileID: 54811205878901718}
   - {fileID: 54448407827325308}
+  rigidbodies: []
   itemParent: {fileID: 4469326681864290}
   walkSpeed: 1
   walkStartHipsOffset: {x: 0.005245367, y: 0.07665193, z: 0.08738233}

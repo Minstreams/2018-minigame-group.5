@@ -61,7 +61,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1347338466779590
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -95,7 +95,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1610291570467772
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -131,7 +131,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1911601991761766
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -149,7 +149,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4016412352109608
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610291570467772}
@@ -162,7 +162,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4060159548166306
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911601991761766}
@@ -220,7 +220,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4812056875299708
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347338466779590}
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_ComponentOwner: {fileID: 4016412352109608}
 --- !u!114 &114349839910844266
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610291570467772}
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_HeadingIsSlave: 1
 --- !u!114 &114426147696742692
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347338466779590}
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_BiasY: 0
 --- !u!114 &114428516050432696
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347338466779590}
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_HeadingIsSlave: 1
 --- !u!114 &114511273240125766
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610291570467772}
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_BiasY: 0
 --- !u!114 &114544657255178862
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911601991761766}
@@ -591,7 +591,7 @@ MonoBehaviour:
   - m_Height: 2.5
     m_Radius: 3
   - m_Height: -0.5
-    m_Radius: 1.3
+    m_Radius: 1.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 114165951537536196}
@@ -599,7 +599,7 @@ MonoBehaviour:
   - {fileID: 114766545674162068}
 --- !u!114 &114812312169312856
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610291570467772}
@@ -610,7 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114866454123417646
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347338466779590}
@@ -621,7 +621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114909450791017044
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911601991761766}
@@ -632,7 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114936324398521054
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911601991761766}

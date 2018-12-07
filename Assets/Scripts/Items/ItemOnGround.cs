@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using GameSystem;
 
 /// <summary>
 /// 场景中的道具
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
-public class ItemOnGround : NetworkBehaviour
+public class ItemOnGround : MonoBehaviour
 {
     public bool debug = false;
     public ItemSystem.ItemState state = ItemSystem.ItemState.pickable;
@@ -24,8 +23,8 @@ public class ItemOnGround : NetworkBehaviour
     }
     private void Start()
     {
-        gun.asource.clip = item.sound;
-        if (NetworkSystem.IsServer) NetworkServer.Spawn(gameObject);
+        if (gun != null)
+            gun.asource.clip = item.sound;
         if (state == ItemSystem.ItemState.pickable) StartCoroutine(Rotate());
     }
 
@@ -51,20 +50,15 @@ public class ItemOnGround : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (NetworkSystem.IsServer && state == ItemSystem.ItemState.pickable && other.tag == "Player" && !isPicked)
+        if (state == ItemSystem.ItemState.pickable && other.tag == "Player" && !isPicked)
         {
-            other.GetComponentInParent<PenguinController>().PickUp(this);
-            isPicked = true;
+            if (NetworkSystem.IsServer) other.GetComponentInParent<PenguinController>().PickUp(this);
+            if (onPicked != null) onPicked();
+            Destroy(gameObject);
         }
     }
 
 
-    [ClientRpc]
-    public void RpcPicked()
-    {
-        if (onPicked != null) onPicked();
-        NetworkServer.Destroy(gameObject);
-    }
 
 
 
@@ -89,7 +83,6 @@ public class ItemOnGround : NetworkBehaviour
         }
     }
 
-    [Server]
     public void Func()
     {
         if (debug) Debug.Log("Func!");
@@ -110,10 +103,12 @@ public class ItemOnGround : NetworkBehaviour
         }
     }
 
+
     //CalledByItemGun
     public void OnAmmoHit(HarmSystem.HitTarget target, Vector3 direction, Vector3 position)
     {
-        target.OnServerHarm(new HarmSystem.HarmInformation(item.ammoForce, item.ammoHarm, item.ammoDestroyPower, direction, position));
+        if (NetworkSystem.IsServer)
+            target.OnServerHarm(new HarmSystem.HarmInformation(item.ammoForce, item.ammoHarm, item.ammoDestroyPower, direction, position));
     }
 
 

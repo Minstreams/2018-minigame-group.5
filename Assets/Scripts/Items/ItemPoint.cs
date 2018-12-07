@@ -20,14 +20,14 @@ public class ItemPoint : NetworkBehaviour
         StartCoroutine(RefreshItem());
     }
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    if (syncCurrentItemIndex >= 0)
-    //    {
-    //        ClientGenerateItem(syncCurrentItemIndex);
-    //    }
-    //}
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (syncCurrentItemIndex >= 0)
+        {
+            ClientGenerateItem(syncCurrentItemIndex);
+        }
+    }
 
     [ClientRpc]
     private void RpcGenerateItem(int itemIndex)

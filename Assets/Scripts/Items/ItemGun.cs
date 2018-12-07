@@ -22,10 +22,10 @@ public class ItemGun : MonoBehaviour
     void OnParticleCollision(GameObject other)
     {
         HarmSystem.HitTarget target = other.GetComponentInParent<HarmSystem.HitTarget>();
-        if (target == null) return;
+        if (target == null || !target.CompareTag("Player")) return;
 
         part.GetCollisionEvents(other, collisionEvents);
-;        item.OnAmmoHit(target, collisionEvents[0].velocity.normalized, collisionEvents[0].intersection);
+        ; item.OnAmmoHit(target, collisionEvents[0].velocity.normalized, collisionEvents[0].intersection);
 
         //int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
 
