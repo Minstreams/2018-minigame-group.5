@@ -10,7 +10,7 @@ public class DeadZone : MonoBehaviour
         if (GameSystem.NetworkSystem.IsServer && other.CompareTag("Player"))
         {
             PenguinController penguin = other.GetComponentInParent<PenguinController>();
-            if (!penguin.isDead) penguin.RpcDie();
+            if (!penguin.isDead) { penguin.isDead = true; penguin.RpcDie(); }
         }
     }
 

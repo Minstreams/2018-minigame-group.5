@@ -29,23 +29,31 @@ namespace GameSystem
         }
 
         private static int sceneIndex = -1;
-        public static int GetNextSceneIndex()
+        public static string GetNextScene()
         {
             int next;
             do
                 next = Random.Range(0, Setting.levels.Count);
             while (next == sceneIndex);
             sceneIndex = next;
-            return sceneIndex;
+            return Setting.levels[sceneIndex];
+        }
+
+        public static int GetPlayerAliveNum()
+        {
+            int num = 0;
+            foreach (PenguinController p in PlayerList)
+            {
+                if (!p.isDead) num++;
+            }
+            return num;
         }
 
 
-        private static int playerAliveNum = 0;
         //Rpc Functions
         public static void RpcDie(PenguinController penguin)
         {
-            Debug.Log("RpcDie " + penguin + "[playerAliveNum:" + playerAliveNum + "]");
-            playerAliveNum--;
+            Debug.Log("RpcDie " + penguin);
 
             StartCoroutine(DieSlowly(penguin));
         }
@@ -63,13 +71,12 @@ namespace GameSystem
             }
             penguin.gameObject.SetActive(false);
 
-            if (NetworkSystem.IsServer && playerAliveNum <= 1) StartNewLevel();
+            if (NetworkSystem.IsServer && GetPlayerAliveNum() <= 1) StartNewLevel();
         }
 
         public static void RpcReborn(PenguinController penguin, Vector3 position)
         {
             Debug.Log("RpcReborn " + penguin + "[playerNum:" + PlayerList.Count + "]");
-            playerAliveNum++;
             if (penguin.isLocalPlayer) camFollowTarget = penguin.camPoint;
             //Reset the position
             penguin.transform.position = position;
@@ -110,7 +117,7 @@ namespace GameSystem
 
                 if (camFollowTarget != null)
                 {
-                    camPoint.transform.Translate(Mathf.Pow(Setting.camFollowRate, 1 / Time.deltaTime) * (camFollowTarget.position - camPoint.transform.position));
+                    camPoint.transform.Translate(Mathf.Pow(Setting.camFollowRate, 1 / Time.deltaTime) * (camFollowTarget.position + Setting.camOffset - camPoint.transform.position));
                 }
             }
         }
@@ -127,16 +134,9 @@ namespace GameSystem
         {
             Debug.Log("StartNewLevel[playerNum:" + PlayerList.Count + "]");
             //TODO:加载场景
-            LocalPlayer.RpcLoadScene(GetNextSceneIndex());
-            playerAliveNum = 0;
+            MyNetworkManager.singleton.ServerChangeScene(GetNextScene());
             foreach (PenguinController p in PlayerList) p.RpcReborn(GetNextStartPoint());
 
-        }
-
-        public static void RpcLoadScene(int index)
-        {
-            Debug.Log("RpcLoadScene[Scene:" + Setting.levels[index] + "]");
-            SceneSystem.SimpleLoadScene(Setting.levels[index]);
         }
 
     }

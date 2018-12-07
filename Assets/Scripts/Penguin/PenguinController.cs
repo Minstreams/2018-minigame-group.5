@@ -45,7 +45,7 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         }
     }
 
-    public bool isDead { get; private set; }
+    public bool isDead { get; set; }
 
     [Command]
     private void CmdSetCurrentState(PenguinState penguinState)
@@ -127,8 +127,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     //道具------------------------------------------------
     public Transform itemParent;
     private ItemOnGround currentItem;
-    private ParticleSystem gunShot;
-    private float gunShotTimer;
 
     private Vector3 GetForwardDir()
     {
@@ -146,9 +144,9 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
     [ClientRpc]
     public void RpcPickUp(ItemSystem.ItemGenerationInformation information)
     {
+        if (debug) Debug.Log("RpcPickUp");
         currentItem = ItemSystem.GenerateItem(itemParent, information);
-        gunShot = currentItem.GetComponentInChildren<ParticleSystem>();
-        gunShotTimer = 0;
+        currentItem.owner = this;
     }
 
     public void Drop()
@@ -158,42 +156,22 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         //TODO
     }
 
-    private IEnumerator Func()
+
+    private void OnAnimatorIK(int layerIndex)
     {
-        while (true)
-        {
-            yield return 0;
-            if (currentItem == null) continue;
-            if (InputSystem.GetInput(InputCode.Func))
-            {
-                switch (currentItem.item.type)
-                {
-                    case ItemType.Gun:
-                        while (gunShotTimer > currentItem.item.deltaTime)
-                        {
-                            gunShotTimer -= currentItem.item.deltaTime;
-                            gunShot.Emit(1);
-                        }
-                        gunShotTimer += Time.deltaTime;
-                        break;
-                    case ItemType.Rock:
-                    case ItemType.Stick:
-                        break;
-                }
-            }
-            else
-            {
-                if (gunShotTimer < currentItem.item.deltaTime)
-                {
-                    gunShotTimer += Time.deltaTime;
-                }
-            }
-            if (InputSystem.GetInput(InputCode.Drop))
-            {
-                Drop();
-            }
-        }
+        bool ik = currentItem != null;
+        //视线位置
+        anim.SetLookAtWeight(ik ? 0.8f : 0, 0.5f, 1, 0, 1);
+        anim.SetLookAtPosition(aimPos);
+
+        //右手位置
+        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, ik ? 0.4f : 0);
+        anim.SetIKRotationWeight(AvatarIKGoal.RightHand, ik ? 0.7f : 0);
+        anim.SetIKPosition(AvatarIKGoal.RightHand, aimPos);
+        anim.SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(aimPos - transform.position - Vector3.up * 0.5f));
     }
+
+
 
     [Server]
     public void ConstantSpeed(Vector3 s)
@@ -259,24 +237,23 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
     //状态机-----------------------------------------------
-    private float speedForward;
-    private float turnSpeed;
     private bool slideButton;
     private bool brakeButton;
+    private bool dropButton;
+    private Vector3 aimPos;
     [Command]
-    public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb)
+    public void CmdRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap)
     {
-        RpcRecordInputAxis(sf, ts, sb, bb);
+        RpcRecordInputAxis(sf, ts, sb, bb, fb, ap);
     }
     [ClientRpc]
-    public void RpcRecordInputAxis(float sf, float ts, bool sb, bool bb)
+    public void RpcRecordInputAxis(float sf, float ts, bool sb, bool bb, bool fb, Vector3 ap)
     {
-        speedForward = sf;
-        turnSpeed = ts;
         slideButton = sb;
         brakeButton = bb;
+        aimPos = ap;
 
-        if (!isLocalPlayer)
+        if (!isLocalPlayer && !isDead)
         {
             //播放行走动画
             //用二次函数模拟缓动
@@ -284,6 +261,8 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
             //播放转身动画
             //用三次函数模拟双向缓动
             anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
+
+            if (currentItem != null && fb) currentItem.Func();
         }
     }
     LinkedListNode<Coroutine> inputCoroutine = null;
@@ -307,32 +286,41 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
 
 
 
-            float sf = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);
-            float ts = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;
+            float sf = Mathf.Clamp01(Vector3.Dot(transform.forward, forward) * walkSpeed * speedAbs);   //speed forward
+            float ts = Vector3.SignedAngle(transform.forward, forward, Vector3.up) / 180;   //turn speed
+            bool fb = InputSystem.GetInput(InputCode.Func); // func button
+            Vector3 ap = Camera.main.transform.position  + Camera.main.transform.forward * 5;
+            //ap.y = ap.y * 0.5f + 0.25f;
 
-            //播放行走动画
-            //用二次函数模拟缓动
-            anim.SetFloat("speed", sf * (2 - sf));
-            //播放转身动画
-            //用三次函数模拟双向缓动
-            anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
+
+            if (!isDead)
+            {
+                //播放行走动画
+                //用二次函数模拟缓动
+                anim.SetFloat("speed", sf * (2 - sf));
+                //播放转身动画
+                //用三次函数模拟双向缓动
+                anim.SetFloat("turn", ts * (2 + ts) * (2 - ts));
+                if (currentItem != null && fb) currentItem.Func();
+            }
             if (isServer)
             {
                 slideButton = InputSystem.GetInput(InputCode.Slide);
                 brakeButton = InputSystem.GetInput(InputCode.Brake);
-                speedForward = sf;
-                turnSpeed = ts;
-
+                aimPos = ap;
             }
             else
             {
-                CmdRecordInputAxis(sf, ts, InputSystem.GetInput(InputCode.Slide), InputSystem.GetInput(InputCode.Brake));
+                CmdRecordInputAxis(sf, ts, InputSystem.GetInput(InputCode.Slide), InputSystem.GetInput(InputCode.Brake), fb, ap);
             }
             //Debug
-            Vector3 eyePos = hips.position + Vector3.up * 0.5f;
-            Debug.DrawLine(eyePos, eyePos + hips.forward * speedForward * 2, Color.blue);
-            Debug.DrawLine(eyePos, eyePos + hips.right * turnSpeed * 2, Color.red);
-            Debug.DrawLine(eyePos, eyePos + forward * speedAbs * 2, Color.yellow);
+            if (debug)
+            {
+                Vector3 eyePos = hips.position + Vector3.up * 0.5f;
+                Debug.DrawLine(eyePos, eyePos + hips.forward * sf * 2, Color.blue);
+                Debug.DrawLine(eyePos, eyePos + hips.right * ts * 2, Color.red);
+                Debug.DrawLine(eyePos, eyePos + forward * speedAbs * 2, Color.yellow);
+            }
         }
     }
 
@@ -366,11 +354,6 @@ public class PenguinController : HarmSystem.HitTarget, HarmSystem.FlyingAmmo
         RpcReborn(LevelSystem.GetNextStartPoint());
     }
 
-    [ClientRpc]
-    public void RpcLoadScene(int index)
-    {
-        LevelSystem.RpcLoadScene(index);
-    }
 
 
     //Walk~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!

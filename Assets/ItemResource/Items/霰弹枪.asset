@@ -13,13 +13,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1647716308745630, guid: 95720cf5efda4d94fafa56643d42f0f2, type: 2}
   offset: {x: 0, y: 0, z: 0}
-  type: 0
+  type: 2
   force: 0
   harm: 0
   destroyPower: 0
   speed: 200
   deltaTime: 0.8
-  sound: {fileID: 0}
+  sound: {fileID: 8300000, guid: 38d996c522a3ab54383b4ebf4afbb307, type: 3}
+  maxAmmo: 0
   ammoForce: 8
   ammoHarm: 0.02
   ammoDestroyPower: 2

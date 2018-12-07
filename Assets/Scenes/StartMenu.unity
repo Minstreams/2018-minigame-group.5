@@ -2331,11 +2331,10 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 1819038416927894, guid: 05e5cc9263215c4458819bd151849d28,
     type: 2}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 0
+  m_PlayerSpawnMethod: 1
   m_OfflineScene: StartMenu
   m_OnlineScene: Level1
   m_SpawnPrefabs:
-  - {fileID: 1150568594549932, guid: 10c53e82c6e51994d9b6ccef429ab1e9, type: 2}
   - {fileID: 1852417486951480, guid: 369e5ea73584ea2489c818fbbe4b209b, type: 2}
   - {fileID: 1088023207945002, guid: a27893e8982dad240852e6b05f48f2d5, type: 2}
   - {fileID: 1551042904668380, guid: 372bf757bbccd3a42b7d17154fcdd402, type: 2}

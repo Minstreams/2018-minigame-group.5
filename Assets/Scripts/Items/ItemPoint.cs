@@ -8,31 +8,26 @@ using UnityEngine.Networking;
 /// </summary>
 public class ItemPoint : NetworkBehaviour
 {
-    public Vector3 rotEuler;
     public float cooldownTime;
 
     public Item[] itemList;
     [SyncVar]
     private int syncCurrentItemIndex = -1;
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        StartCoroutine(RefreshItem());
+    }
 
-    private void Update()
-    {
-        transform.Rotate(rotEuler * Time.deltaTime);
-    }
-    private void Start()
-    {
-        if (itemList == null || itemList.Length == 0) return;
-        if (isServer)
-        {
-            StartCoroutine(RefreshItem());
-            NetworkServer.Spawn(gameObject);
-        }
-        else if (syncCurrentItemIndex >= 0)
-        {
-            ClientGenerateItem(syncCurrentItemIndex);
-        }
-    }
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    if (syncCurrentItemIndex >= 0)
+    //    {
+    //        ClientGenerateItem(syncCurrentItemIndex);
+    //    }
+    //}
 
     [ClientRpc]
     private void RpcGenerateItem(int itemIndex)

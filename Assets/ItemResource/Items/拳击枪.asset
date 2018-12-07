@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: "\u62F3\u51FB\u67AA"
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1150568594549932, guid: 10c53e82c6e51994d9b6ccef429ab1e9, type: 2}
+  prefab: {fileID: 1030526037755442, guid: c2b28922b8dc8d34bba3d3275d375ed2, type: 2}
   offset: {x: 0, y: 0, z: 0}
   type: 0
   force: 0
@@ -20,6 +20,7 @@ MonoBehaviour:
   speed: 0
   deltaTime: 0.8
   sound: {fileID: 0}
+  maxAmmo: 0
   ammoForce: 80
   ammoHarm: 0.03
   ammoDestroyPower: 10

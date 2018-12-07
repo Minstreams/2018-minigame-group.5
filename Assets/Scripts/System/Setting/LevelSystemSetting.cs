@@ -13,6 +13,7 @@ namespace GameSystem
             public GameObject camPrefab;
             [Range(0, 1)]
             public float camFollowRate = 0.9f;
+            public Vector3 camOffset = Vector3.up;
 
             public float dieTime = 1f;
             public float dieTimeScale = 0.2f;
