@@ -172,67 +172,7 @@ public class PenguinController : HarmSystem.HitTarget
 
 
 
-    [Server]
-    public void ConstantSpeed(Vector3 s)
-    {
-        RpcConstantSpeed(s);
-    }
 
-    [ClientRpc]
-    private void RpcConstantSpeed(Vector3 s)
-    {
-        if (debug) Debug.Log("RpcConstantSpeed[s:" + s + "]");
-        switch (CurrentState)
-        {
-            case PenguinState.Walk:
-            case PenguinState.BeforeSlide:
-                transform.Translate(s * Time.deltaTime, Space.World);
-                break;
-            case PenguinState.Slide:
-            case PenguinState.Brake:
-                foreach (Rigidbody r in rigidbodies)
-                {
-                    r.AddForce(s, ForceMode.Acceleration);
-                }
-                break;
-        }
-    }
-
-    [Server]
-    public void ImpulseSpeed(Vector3 s)
-    {
-        RpcImpulseSpeed(s);
-    }
-
-    [ClientRpc]
-    private void RpcImpulseSpeed(Vector3 s)
-    {
-        if (debug) Debug.Log("RpcImpulseSpeed[s:" + s + "]");
-        switch (CurrentState)
-        {
-            case PenguinState.Walk:
-            case PenguinState.BeforeSlide:
-                if (CurrentState == PenguinState.Slide) return;
-                anim.SetBool("Slide", true);
-                anim.SetBool("Brake", false);
-                pushRecorder.Record();
-                anim.enabled = false;
-                pushFormer.Read();
-                pushRecorder.Read();
-                simpleGravity.enabled = false;
-                foreach (Rigidbody r in rigidbodies)
-                {
-                    r.velocity = Vector3.zero;
-                }
-                sync.syncRigidbody = true;
-                if (NetworkSystem.IsServer) { StopAllCoroutines(); StartCoroutine(Slide()); }
-                break;
-        }
-        foreach (Rigidbody r in rigidbodies)
-        {
-            r.AddForce(s, ForceMode.VelocityChange);
-        }
-    }
 
 
     //状态机-----------------------------------------------
@@ -560,9 +500,79 @@ public class PenguinController : HarmSystem.HitTarget
     [ClientRpc]
     public void RpcOnHarm(HarmSystem.HarmInformation information)
     {
-        Debug.Log(this.name + " is hitted. [force:" + information.force + "][harm:" + information.harm + "][destroyPower:" + information.destroyPower + "][direction:" + information.direction + "]");
+        Debug.Log(this.name + " is hitted.[result:" + information.direction * information.force * harm * 0.01f * HarmSystem.HarmFactor + "] [force:" + information.force + "][harm:" + information.harm + "][destroyPower:" + information.destroyPower + "][direction:" + information.direction + "]");
         HarmSystem.ShowFloatingNumber(information.force + " * " + information.harm + "%", information.position);
         harm += information.harm;
         ImpulseSpeed(information.direction * information.force * harm * 0.01f * HarmSystem.HarmFactor);
+    }
+
+    [Server]
+    public void ConstantSpeed(Vector3 s)
+    {
+        RpcConstantSpeed(s);
+    }
+
+    [ClientRpc]
+    private void RpcConstantSpeed(Vector3 s)
+    {
+        if (debug) Debug.Log("RpcConstantSpeed[s:" + s + "]");
+        switch (CurrentState)
+        {
+            case PenguinState.Walk:
+            case PenguinState.BeforeSlide:
+                transform.Translate(s * Time.deltaTime, Space.World);
+                break;
+            case PenguinState.Slide:
+            case PenguinState.Brake:
+                foreach (Rigidbody r in rigidbodies)
+                {
+                    r.AddForce(s, ForceMode.Acceleration);
+                }
+                break;
+        }
+    }
+
+    [Server]
+    public void ImpulseSpeed(Vector3 s)
+    {
+        RpcImpulseSpeed(s);
+    }
+
+    public float impulseTolerence = 10;
+    [ClientRpc]
+    private void RpcImpulseSpeed(Vector3 s)
+    {
+        if (debug) Debug.Log("RpcImpulseSpeed[s:" + s + "]");
+        switch (CurrentState)
+        {
+            case PenguinState.Walk:
+            case PenguinState.BeforeSlide:
+                if (s.magnitude < impulseTolerence)
+                {
+                    //效果？
+                    break;
+                }
+                anim.SetBool("Slide", true);
+                anim.SetBool("Brake", false);
+                pushRecorder.Record();
+                anim.enabled = false;
+                pushFormer.Read();
+                pushRecorder.Read();
+                simpleGravity.enabled = false;
+                foreach (Rigidbody r in rigidbodies)
+                {
+                    r.velocity = Vector3.zero;
+                }
+                sync.syncRigidbody = true;
+                if (NetworkSystem.IsServer) { StopAllCoroutines(); StartCoroutine(Slide()); }
+                break;
+            default:
+                foreach (Rigidbody r in rigidbodies)
+                {
+                    r.AddForce(s, ForceMode.VelocityChange);
+                }
+                break;
+        }
+
     }
 }

@@ -1150,10 +1150,10 @@ MonoBehaviour:
   pushRecorder: {fileID: 114778463666351134}
   slideForce: 10
   slideAnimLength: 0.5
-  minStandSpeed: 5
+  minStandSpeed: 0.8
   harm: 0
-  causeForce: 0
-  causeHarm: 0
+  causeForce: 1
+  causeHarm: 10
   causeDestroyPower: 0
 --- !u!114 &114128230053111348
 MonoBehaviour:

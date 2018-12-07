@@ -19,7 +19,7 @@ public class HarmfulHead : MonoBehaviour
     {
         if (NetworkSystem.IsServer && penguin.CurrentState == PenguinController.PenguinState.Slide && collision.collider.CompareTag("Player"))
         {
-            collision.collider.GetComponent<PenguinController>().OnServerHarm(new HarmSystem.HarmInformation(penguin.causeForce, penguin.causeHarm, penguin.causeDestroyPower, -collision.impulse.normalized, collision.contacts[0].point));
+            collision.collider.GetComponentInParent<PenguinController>().OnServerHarm(new HarmSystem.HarmInformation(penguin.causeForce, penguin.causeHarm, penguin.causeDestroyPower, -collision.impulse.normalized, collision.contacts[0].point));
         }
     }
 }
