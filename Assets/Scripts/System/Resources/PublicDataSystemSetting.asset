@@ -8,9 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b202a5cd226a1946a2cd470dc53eec1, type: 3}
-  m_Name: HarmSystemSetting
+  m_Script: {fileID: 11500000, guid: f5a7c5be818977944baf496a4d16b0b9, type: 3}
+  m_Name: PublicDataSystemSetting
   m_EditorClassIdentifier: 
-  harmFactor: 0.1
-  harmFloatingNumber: {fileID: 1156790284405136, guid: 5f4f5461c08c4cb4987891de8c8da812,
-    type: 2}
+  pickUp: {fileID: 0}
+  runOutOfAmmo: {fileID: 0}

@@ -37,7 +37,7 @@ public class ItemPoint : NetworkBehaviour
 
     private void ClientGenerateItem(int itemIndex)
     {
-        ItemOnGround iog = GameSystem.ItemSystem.GenerateItem(transform, new GameSystem.ItemSystem.ItemGenerationInformation(true, GameSystem.ItemSystem.ItemState.pickable, itemList[itemIndex].maxAmmo, itemList[itemIndex]));
+        ItemOnGround iog = GameSystem.ItemSystem.GenerateItem(transform, new GameSystem.ItemSystem.ItemGenerationInformation(GameSystem.ItemSystem.ItemState.pickable, itemList[itemIndex].maxAmmo, itemList[itemIndex]));
         if (isServer) iog.onPicked += () => { StartCoroutine(RefreshItem()); syncCurrentItemIndex = -1; };
     }
 
@@ -48,6 +48,14 @@ public class ItemPoint : NetworkBehaviour
     }
 
 #if UNITY_EDITOR
+    [ContextMenu("generate")]
+    public void TestGenerateItem()
+    {
+        StopAllCoroutines();
+        int itemIndex = Random.Range(0, itemList.Length);
+        ItemOnGround iog = GameSystem.ItemSystem.GenerateItem(transform, new GameSystem.ItemSystem.ItemGenerationInformation(GameSystem.ItemSystem.ItemState.pickable, itemList[itemIndex].maxAmmo, itemList[itemIndex]));
+    }
+
     private void OnDrawGizmos()
     {
         UnityEditor.Handles.color = Color.blue;

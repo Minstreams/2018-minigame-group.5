@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSystem;
 
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(Rigidbody))]
 public class ItemModel : MonoBehaviour
 {
     private ItemOnGround item;

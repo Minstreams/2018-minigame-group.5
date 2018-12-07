@@ -9,7 +9,6 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public GameObject prefab;
-    public Vector3 offset;
     public ItemType type;
     public float force;
     public float harm;
@@ -17,6 +16,7 @@ public class Item : ScriptableObject
     public float speed;
     [Header("开火间隔(s)")]
     public float deltaTime;
+    public int ammoNum;
     public AudioClip sound;
 
     public int maxAmmo;
@@ -25,6 +25,9 @@ public class Item : ScriptableObject
     public float ammoDestroyPower;
 
     public float health;
+
+    public AudioClip pickUp;
+    public AudioClip runOutOfAmmo;
 }
 
 public enum ItemType

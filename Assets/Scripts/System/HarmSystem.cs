@@ -50,7 +50,7 @@ namespace GameSystem
 
         public static void ShowFloatingNumber(string text, Vector3 position)
         {
-            TextMesh tm = GameObject.Instantiate(Setting.harmFloatingNumber, position, Quaternion.LookRotation(Camera.main.transform.position - position), null).GetComponent<TextMesh>();
+            TextMesh tm = GameObject.Instantiate(Setting.harmFloatingNumber, position, Camera.main.transform.rotation, null).GetComponent<TextMesh>();
             tm.text = text;
         }
     }
