@@ -9,18 +9,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
-  m_Name: "\u9730\u5F39\u67AA"
+  m_Name: baseball
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1647716308745630, guid: 95720cf5efda4d94fafa56643d42f0f2, type: 2}
-  type: 2
+  prefab: {fileID: 1852417486951480, guid: 369e5ea73584ea2489c818fbbe4b209b, type: 2}
+  type: 0
   force: 0
   harm: 0
   destroyPower: 0
-  speed: 200
-  deltaTime: 0.3
-  sound: {fileID: 8300000, guid: 38d996c522a3ab54383b4ebf4afbb307, type: 3}
+  speed: 0
+  deltaTime: 0
+  ammoNum: 0
+  sound: {fileID: 0}
   maxAmmo: 0
-  ammoForce: 8
-  ammoHarm: 0.02
-  ammoDestroyPower: 2
-  health: 10
+  ammoForce: 0
+  ammoHarm: 0
+  ammoDestroyPower: 0
+  health: 0

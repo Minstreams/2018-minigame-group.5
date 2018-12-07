@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameSystem;
 
+[RequireComponent(typeof(AudioSource))]
 public class ItemGun : MonoBehaviour
 {
 

@@ -78,15 +78,17 @@ public class PenguinController : HarmSystem.HitTarget
     private PosRecorder posRecorder;
     private PosShaper posShaper;
     public Rigidbody[] rigidbodies;
+    private AudioSource audioSource;
     private void Awake()
     {
         Debug.Log("Penguin Awake!");
-        rigidbodies = GetComponentsInChildren<Rigidbody>();
         anim = GetComponent<Animator>();
         sync = GetComponent<SyncLerpMove>();
         posRecorder = GetComponent<PosRecorder>();
         posShaper = GetComponent<PosShaper>();
         simpleGravity = GetComponent<SimpleGravity>();
+        rigidbodies = GetComponentsInChildren<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         DontDestroyOnLoad(gameObject);
         NetworkSystem.playerList.Add(this);
     }
@@ -121,7 +123,12 @@ public class PenguinController : HarmSystem.HitTarget
         GameSystem.NetworkSystem.playerList.Remove(this);
     }
 
-
+    public void PlayAudio(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        if (clip != null)
+            audioSource.Play();
+    }
 
 
     //道具------------------------------------------------
@@ -137,7 +144,7 @@ public class PenguinController : HarmSystem.HitTarget
     public void PickUp(ItemOnGround item)
     {
         if (currentItem != null) return;
-        RpcPickUp(new ItemSystem.ItemGenerationInformation(false, ItemSystem.ItemState.onHand, item.ammo, item.item));
+        RpcPickUp(new ItemSystem.ItemGenerationInformation(ItemSystem.ItemState.onHand, item.ammo, item.item));
     }
 
     [ClientRpc]
@@ -146,6 +153,7 @@ public class PenguinController : HarmSystem.HitTarget
         if (debug) Debug.Log("RpcPickUp");
         currentItem = ItemSystem.GenerateItem(itemParent, information);
         currentItem.owner = this;
+        PlayAudio(currentItem.item.pickUp);
     }
 
     public void Drop()
@@ -501,8 +509,8 @@ public class PenguinController : HarmSystem.HitTarget
     public void RpcOnHarm(HarmSystem.HarmInformation information)
     {
         Debug.Log(this.name + " is hitted.[result:" + information.direction * information.force * harm * 0.01f * HarmSystem.HarmFactor + "] [force:" + information.force + "][harm:" + information.harm + "][destroyPower:" + information.destroyPower + "][direction:" + information.direction + "]");
-        HarmSystem.ShowFloatingNumber(information.force + " * " + information.harm + "%", information.position);
         harm += information.harm;
+        HarmSystem.ShowFloatingNumber(information.force + " * " + harm + "%", information.position);
         ImpulseSpeed(information.direction * information.force * harm * 0.01f * HarmSystem.HarmFactor);
     }
 

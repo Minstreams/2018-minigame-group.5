@@ -25,7 +25,10 @@ public class ItemOnGround : MonoBehaviour
     private void Start()
     {
         if (gun != null)
+        {
             gun.asource.clip = item.sound;
+            gun.ammoNum = item.ammoNum;
+        }
         if (state == ItemSystem.ItemState.pickable) StartCoroutine(Rotate());
     }
 
@@ -104,10 +107,16 @@ public class ItemOnGround : MonoBehaviour
                 timer = Time.time;
                 if (timer - lastFuncTime >= item.deltaTime)
                 {
+                    if (ammo <= 0)
+                    {
+                        owner.PlayAudio(item.runOutOfAmmo);
+                        break;
+                    }
                     lastFuncTime = timer;
                     owner.ConstantSpeed(-item.force * gun.transform.forward * backPushRate);
                     gun.Fire();
                     model.BackPower();
+                    ammo--;
                     if (debug) Debug.Log("Fire!");
                 }
 

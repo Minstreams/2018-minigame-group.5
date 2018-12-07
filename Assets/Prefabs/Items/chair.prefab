@@ -39,6 +39,9 @@ GameObject:
   - component: {fileID: 4408935695591618}
   - component: {fileID: 33576270047846954}
   - component: {fileID: 23580916590014070}
+  - component: {fileID: 54050083059113158}
+  - component: {fileID: 65682596017547782}
+  - component: {fileID: 114201086987553456}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -115,6 +118,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1965302268387228}
   m_Mesh: {fileID: 43975352103640904, guid: a75bd6e5aa42b3347945c4c5eace3209, type: 2}
+--- !u!54 &54050083059113158
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965302268387228}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!65 &65682596017547782
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965302268387228}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.05, y: 0.65000004, z: 0.4}
+  m_Center: {x: 0, y: 0.32500002, z: 0}
 --- !u!114 &114057135994749784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,6 +177,19 @@ MonoBehaviour:
     i15: 114
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114201086987553456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965302268387228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cde8a5452dfc98447959a5f3dfd2e466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnRate: 0
+  backPower: {x: 0, y: 0, z: 0}
 --- !u!114 &114604325927109592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,9 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc516e3e131a2274a86c0f1c9e8e3d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   state: 0
   ammo: 0
   item: {fileID: 0}
+  backPushRate: 1
 --- !u!135 &135522694097705502
 SphereCollider:
   m_ObjectHideFlags: 1
