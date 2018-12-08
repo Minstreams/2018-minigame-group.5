@@ -26,4 +26,4 @@ MonoBehaviour:
   ammoDestroyPower: 0
   health: 0
   pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
-  runOutOfAmmo: {fileID: 0}
+  runOutOfAmmo: {fileID: 8300000, guid: 7639bd0a87e393941ad50ca7fbcd5fd2, type: 3}
