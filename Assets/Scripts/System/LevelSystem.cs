@@ -64,14 +64,19 @@ namespace GameSystem
             Time.timeScale = 1;
             if (NetworkSystem.IsServer)
                 penguin.StopAllCoroutines();
-            if (penguin.isLocalPlayer)
+            if (GetPlayerAliveNum() <= 1)
             {
-                //local Player, disable the controlling process, enter Obeserve Mode
-                StartObserve();
+                if (NetworkSystem.IsServer) StartNewLevel();
             }
-            penguin.gameObject.SetActive(false);
-
-            if (NetworkSystem.IsServer && GetPlayerAliveNum() <= 1) StartNewLevel();
+            else
+            {
+                if (penguin.isLocalPlayer)
+                {
+                    //local Player, disable the controlling process, enter Obeserve Mode
+                    StartObserve();
+                }
+                penguin.gameObject.SetActive(false);
+            }
         }
 
         public static void RpcReborn(PenguinController penguin, Vector3 position)
@@ -131,6 +136,14 @@ namespace GameSystem
             camFollowTarget = LevelSystem.observerPoints[0];
         }
 
+
+        private static int camTargetIndex = 0;
+        private static void SetCamTarget()
+        {
+            camTargetIndex++;
+            if (camTargetIndex >= observerPoints.Count + PlayerList.Count) camTargetIndex = 0;
+            camFollowTarget = camTargetIndex < observerPoints.Count ? observerPoints[camTargetIndex] : PlayerList[camTargetIndex - observerPoints.Count].camPoint;
+        }
 
 
         //Only On Server

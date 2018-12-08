@@ -685,7 +685,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819038416927894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.998, z: 0}
+  m_LocalPosition: {x: -5.542925, y: 4.7739325, z: 5.198654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4582379540002740}
@@ -1246,7 +1246,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1342,7 +1342,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1738,66 +1738,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   units:
   - transform: {fileID: 4582379540002740}
-    localPosition: {x: 0.00001444894, y: 0.49622115, z: -0.03696811}
-    localRotation: {x: 0.0000004510015, y: -0.000018615578, z: -0.000034394787, w: 1}
+    localPosition: {x: -0.0015773773, y: 0.50751305, z: -0.038412094}
+    localRotation: {x: 0.029331023, y: -0.03261292, z: -0.023847032, w: 0.9987529}
   - transform: {fileID: 4273302899061266}
-    localPosition: {x: -0.20154832, y: -0.058105804, z: 0.023168951}
-    localRotation: {x: 0.000014629931, y: 0.079333045, z: 0.9968321, w: 0.005674446}
+    localPosition: {x: -0.20154832, y: -0.05810581, z: 0.023168951}
+    localRotation: {x: 0.0063590305, y: 0.239749, z: 0.9693934, w: -0.052503373}
   - transform: {fileID: 4192192882777314}
-    localPosition: {x: 0.20154832, y: -0.058105804, z: 0.028453404}
-    localRotation: {x: -0.000110257824, y: 0.071245484, z: 0.99744254, w: -0.0056999037}
+    localPosition: {x: 0.20154832, y: -0.058105793, z: 0.028453404}
+    localRotation: {x: 0.07444211, y: 0.052619353, z: 0.9957813, w: -0.010446436}
   - transform: {fileID: 4385333557276804}
-    localPosition: {x: -0, y: 0.104494385, z: -0.0060558664}
-    localRotation: {x: -0.028941007, y: 0.00001761238, z: 0.00003491913, w: 0.99958116}
+    localPosition: {x: 2.2737368e-12, y: 0.104494356, z: -0.006055867}
+    localRotation: {x: 0.04517394, y: -0.05151481, z: 0.042416763, w: 0.996748}
   - transform: {fileID: 4107425294666352}
-    localPosition: {x: -0, y: 0.26060417, z: 0}
-    localRotation: {x: -0.2120018, y: -0.002076358, z: 0.0139945615, w: 0.9771669}
+    localPosition: {x: 0.000000007450581, y: 0.26060432, z: -0.000000014901161}
+    localRotation: {x: -0.5648652, y: 0.021733794, z: 0.008907796, w: 0.8248489}
   - transform: {fileID: 4908795401948040}
-    localPosition: {x: -2.220446e-17, y: 0.18681283, z: 2.7755576e-18}
-    localRotation: {x: 0.81027424, y: 0.03405403, z: -0.026728276, w: 0.5844498}
+    localPosition: {x: -9.313226e-10, y: 0.18681312, z: 0.000000033527613}
+    localRotation: {x: 0.8657844, y: 0.06585412, z: -0.0021432415, w: 0.49606046}
   - transform: {fileID: 4266674557679778}
-    localPosition: {x: -0, y: 0.26072046, z: 0}
-    localRotation: {x: -0.20755644, y: 0.0021572714, z: -0.013991291, w: 0.9781206}
+    localPosition: {x: -0.000000005355105, y: 0.26072055, z: -0.000000011175871}
+    localRotation: {x: -0.2533089, y: -0.0406296, z: -0.031764507, w: 0.96600974}
   - transform: {fileID: 4280970869578212}
-    localPosition: {x: -0, y: 0.18638082, z: 5.551115e-18}
-    localRotation: {x: 0.8158414, y: -0.04226595, z: 0.034423586, w: 0.5757009}
+    localPosition: {x: -9.313226e-10, y: 0.18638094, z: 0.000000007450581}
+    localRotation: {x: 0.8395668, y: -0.022798633, z: 0.011184502, w: 0.5426627}
   - transform: {fileID: 4751160342932198}
-    localPosition: {x: -0, y: 0.122114755, z: 0}
-    localRotation: {x: 5.565589e-26, y: -8.20264e-14, z: 6.785119e-13, w: 1}
+    localPosition: {x: -7.5510843e-13, y: 0.12211477, z: 9.313226e-10}
+    localRotation: {x: 0.004175424, y: -0.015447242, z: 0.005846217, w: 0.9998549}
   - transform: {fileID: 4578238656995728}
-    localPosition: {x: -0, y: 0.13955969, z: 5.551115e-18}
-    localRotation: {x: 0, y: 1.009742e-28, z: -8.835242e-29, w: 1}
+    localPosition: {x: -4.137398e-13, y: 0.1395597, z: -0.0000000018626451}
+    localRotation: {x: 0.0040808017, y: -0.01554255, z: 0.00590144, w: 0.99985355}
   - transform: {fileID: 4817264668978360}
-    localPosition: {x: -0.113364674, y: 0.12951516, z: -0.0011833389}
-    localRotation: {x: 0.54545057, y: -0.44896668, z: 0.5501084, w: 0.44530147}
+    localPosition: {x: -0.113364674, y: 0.12951514, z: -0.001183338}
+    localRotation: {x: 0.56907684, y: -0.4138433, z: 0.6047892, w: 0.37298167}
   - transform: {fileID: 4564633436120138}
-    localPosition: {x: -0, y: 0.15700452, z: -0.0000000033639826}
-    localRotation: {x: 0.028940571, y: 3.6034655e-14, z: 2.2851222e-13, w: 0.99958116}
+    localPosition: {x: -2.3808462e-13, y: 0.15700457, z: -9.313226e-10}
+    localRotation: {x: -0.06226995, y: 0.010184019, z: 0.012657685, w: 0.9979271}
   - transform: {fileID: 4930300410026074}
-    localPosition: {x: 0.113364674, y: 0.1295625, z: -0.0020001628}
-    localRotation: {x: -0.54332435, y: -0.45053703, z: 0.55202514, w: -0.4439406}
+    localPosition: {x: 0.113364674, y: 0.12956248, z: -0.0020001675}
+    localRotation: {x: -0.55618924, y: -0.4265439, z: 0.61719304, w: -0.35747254}
   - transform: {fileID: 4457964718294120}
-    localPosition: {x: -0, y: 0.23926714, z: 0}
-    localRotation: {x: -0.10064574, y: -0.0010627374, z: -0.004104547, w: 0.9949133}
+    localPosition: {x: 0.000000015133992, y: 0.23926714, z: -0.000000033527613}
+    localRotation: {x: 0.2688114, y: -0.24327601, z: 0.08223547, w: 0.92832893}
   - transform: {fileID: 4539812253753140}
-    localPosition: {x: -0, y: 0.1725695, z: -1.7763569e-16}
-    localRotation: {x: 0.0000003498732, y: -0.00024212124, z: 0.00000035641435, w: 1}
+    localPosition: {x: 0.0000000038941863, y: 0.17256951, z: 0.000000038540804}
+    localRotation: {x: 0.09137066, y: -0.11594653, z: -0.47839305, w: 0.86564887}
   - transform: {fileID: 4416641589916822}
-    localPosition: {x: -0, y: 0.14205562, z: 1.7763569e-16}
-    localRotation: {x: 0, y: -0, z: -0, w: 1}
+    localPosition: {x: 3.4592773e-10, y: 0.14205563, z: -0.000000008802772}
+    localRotation: {x: 0.00043576397, y: -0.00034510947, z: 0.000024448887, w: 0.9999998}
   - transform: {fileID: 4941981745442780}
-    localPosition: {x: -0, y: 0.054601956, z: 0.030426024}
-    localRotation: {x: 0, y: -0, z: -8.9387096e-30, w: 1}
+    localPosition: {x: 4.4529744e-13, y: 0.054601908, z: 0.030426024}
+    localRotation: {x: -0.14156425, y: 0.06536895, z: 0.023809552, w: 0.9874815}
   - transform: {fileID: 4403626427290344}
-    localPosition: {x: 1.110223e-17, y: 0.23926714, z: -1.7763569e-16}
-    localRotation: {x: -0.10043162, y: 0.0007394584, z: 0.007680068, w: 0.99491405}
+    localPosition: {x: -0.000000011175871, y: 0.23926716, z: 0}
+    localRotation: {x: 0.32726634, y: 0.20773253, z: 0.116860524, w: 0.9143783}
   - transform: {fileID: 4563022248020440}
-    localPosition: {x: -0, y: 0.17264305, z: 0}
-    localRotation: {x: 0.00000011688091, y: -0.00026104235, z: -0.00000043861203,
-      w: 1}
+    localPosition: {x: -0.000000032699898, y: 0.17264308, z: 0.000000049433822}
+    localRotation: {x: 0.12581971, y: 0.09416978, z: 0.66453576, w: 0.7305435}
   - transform: {fileID: 4469326681864290}
-    localPosition: {x: 1.110223e-17, y: 0.14185333, z: 1.7763569e-16}
-    localRotation: {x: 0, y: -0, z: -0, w: 1}
+    localPosition: {x: -0.000000039569272, y: 0.14185342, z: -5.361471e-10}
+    localRotation: {x: 0.00012560187, y: 0.00005710683, z: -0.0000070801934, w: 1}
 --- !u!135 &135177911176271304
 SphereCollider:
   m_ObjectHideFlags: 1
