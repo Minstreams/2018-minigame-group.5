@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: chair
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 1358103167959650, guid: 42bef4df4ad3f6848a93e88220e2ff72, type: 2}
   type: 0
-  force: 0
-  harm: 0
+  force: 16
+  harm: 30
   destroyPower: 0
   speed: 0
   deltaTime: 0
@@ -25,3 +25,5 @@ MonoBehaviour:
   ammoHarm: 0
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 0}

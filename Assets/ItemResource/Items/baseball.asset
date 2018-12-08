@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1852417486951480, guid: 369e5ea73584ea2489c818fbbe4b209b, type: 2}
   type: 0
-  force: 100
+  force: 20
   harm: 10
   destroyPower: 0
   speed: 0
@@ -25,5 +25,5 @@ MonoBehaviour:
   ammoHarm: 0
   ammoDestroyPower: 0
   health: 0
-  pickUp: {fileID: 8300000, guid: 583cb2a5b468f3548a5a2f0adb009d8e, type: 3}
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
   runOutOfAmmo: {fileID: 0}

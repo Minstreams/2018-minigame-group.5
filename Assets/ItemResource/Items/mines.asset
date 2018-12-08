@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: mines
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  type: 0
-  force: 0
-  harm: 0
+  prefab: {fileID: 1030526037755442, guid: c2b28922b8dc8d34bba3d3275d375ed2, type: 2}
+  type: 1
+  force: 40
+  harm: 50
   destroyPower: 0
   speed: 0
   deltaTime: 0
@@ -25,3 +25,5 @@ MonoBehaviour:
   ammoHarm: 0
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 0}

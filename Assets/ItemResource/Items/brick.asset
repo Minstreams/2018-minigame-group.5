@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: brick
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 1551042904668380, guid: 372bf757bbccd3a42b7d17154fcdd402, type: 2}
   type: 0
-  force: 0
-  harm: 0
+  force: 14
+  harm: 30
   destroyPower: 0
   speed: 0
   deltaTime: 0
@@ -25,3 +25,5 @@ MonoBehaviour:
   ammoHarm: 0
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 0}

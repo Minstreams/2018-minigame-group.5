@@ -11,17 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: blow
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  type: 0
-  force: 0
-  harm: 0
+  prefab: {fileID: 1088023207945002, guid: a27893e8982dad240852e6b05f48f2d5, type: 2}
+  type: 2
+  force: 10
+  harm: 10
   destroyPower: 0
   speed: 0
-  deltaTime: 0
-  ammoNum: 0
-  sound: {fileID: 0}
-  maxAmmo: 0
-  ammoForce: 0
-  ammoHarm: 0
+  deltaTime: 0.1
+  ammoNum: 5
+  sound: {fileID: 8300000, guid: bc10fe82e27446541acbd3190fac2e03, type: 3}
+  maxAmmo: 100
+  ammoForce: 20
+  ammoHarm: 1
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 8300000, guid: a0379ca09e61a6e4fb3de86001d073ed, type: 3}

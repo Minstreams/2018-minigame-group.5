@@ -11,17 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5d6424f9867fa49920e44da6b98c75, type: 3}
   m_Name: gun3
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  type: 0
-  force: 0
-  harm: 0
+  prefab: {fileID: 1956914881395060, guid: 81a4ade9020825642b84caac36fb399d, type: 2}
+  type: 2
+  force: 10
+  harm: 5
   destroyPower: 0
   speed: 0
-  deltaTime: 0
-  ammoNum: 0
-  sound: {fileID: 0}
-  maxAmmo: 0
-  ammoForce: 0
-  ammoHarm: 0
+  deltaTime: 0.2
+  ammoNum: 1
+  sound: {fileID: 8300000, guid: 4f50d607460f9414baa862b40cca5722, type: 3}
+  maxAmmo: 500
+  ammoForce: 10
+  ammoHarm: 10
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 8300000, guid: 583cb2a5b468f3548a5a2f0adb009d8e, type: 3}

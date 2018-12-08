@@ -13,14 +13,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1647716308745630, guid: 95720cf5efda4d94fafa56643d42f0f2, type: 2}
   type: 2
-  force: 0
-  harm: 0
+  force: 5
+  harm: 20
   destroyPower: 0
   speed: 0
-  deltaTime: 0
+  deltaTime: 0.5
+  ammoNum: 2
   sound: {fileID: 8300000, guid: caae5f3f5ae165e4bbcb1a3f03a93850, type: 3}
-  maxAmmo: 0
-  ammoForce: 0
-  ammoHarm: 0
+  maxAmmo: 50
+  ammoForce: 3
+  ammoHarm: 10
   ammoDestroyPower: 0
   health: 0
+  pickUp: {fileID: 8300000, guid: fce590c97de15924e9dfcb225690c165, type: 3}
+  runOutOfAmmo: {fileID: 8300000, guid: 7639bd0a87e393941ad50ca7fbcd5fd2, type: 3}
