@@ -56,7 +56,7 @@ public class PenguinController : HarmSystem.HitTarget
     //[ClientRpc]
     //private void RpcSetCurrentState(PenguinState penguinState)
     //{
-        
+
     //}
 
     //引用
@@ -80,6 +80,17 @@ public class PenguinController : HarmSystem.HitTarget
     private PosShaper posShaper;
     public Rigidbody[] rigidbodies;
     private AudioSource audioSource;
+    [SyncVar]
+    private Color headColor;
+    [SyncVar]
+    private Color bodyColor;
+    [Command]
+    private void CmdSetColor(Color h, Color b)
+    {
+        headColor = h;
+        bodyColor = b;
+    }
+
     private void Awake()
     {
         Debug.Log("Penguin Awake!");
@@ -99,6 +110,9 @@ public class PenguinController : HarmSystem.HitTarget
         {
             localPenguin = this;
             inputCoroutine = LevelSystem.StartCoroutine(RecordInputAxis());
+            headColor = PublicDateSystem.Data.userData.headColor;
+            bodyColor = PublicDateSystem.Data.userData.bodyColor;
+            CmdSetColor(headColor, bodyColor);
             CmdReborn();
         }
         else
@@ -117,6 +131,9 @@ public class PenguinController : HarmSystem.HitTarget
                     break;
             }
         }
+        Material material = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        material.SetColor("_Head", headColor);
+        material.SetColor("_Body", bodyColor);
     }
     private void OnDestroy()
     {
