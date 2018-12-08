@@ -13,9 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userData: {fileID: 11400000, guid: e0cf8d315349cec48b99143f24dcceda, type: 2}
   headImages:
-  - {fileID: 21300006, guid: 9500be85bd0958249b4bdc5ccaf4e350, type: 3}
-  - {fileID: 21300030, guid: 9500be85bd0958249b4bdc5ccaf4e350, type: 3}
-  - {fileID: 21300002, guid: 675a63d2a82a45b4f9b5d9b729c753d4, type: 3}
+  - {fileID: 21300000, guid: 3ce643a1bc7dc1f4f9c4ed5d2e825b86, type: 3}
+  - {fileID: 21300000, guid: a30eba3fae1d6824d8c924925035944e, type: 3}
+  - {fileID: 21300000, guid: 0240b80beda9be949a715f014531819c, type: 3}
+  - {fileID: 21300000, guid: b98a9c1384bfc0f4ebf039f00bb8af4c, type: 3}
   headColors:
   - {r: 0.1792453, g: 0.078631185, b: 0.078631185, a: 1}
   - {r: 1, g: 0.6273585, b: 0.6273585, a: 1}
