@@ -1465,7 +1465,7 @@ MonoBehaviour:
   causeForce: 1
   causeHarm: 10
   causeDestroyPower: 0
-  impulseTolerence: 10
+  impulseTolerence: 1
 --- !u!114 &114128230053111348
 MonoBehaviour:
   m_ObjectHideFlags: 1

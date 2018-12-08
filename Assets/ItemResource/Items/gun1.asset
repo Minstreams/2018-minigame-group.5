@@ -20,7 +20,7 @@ MonoBehaviour:
   deltaTime: 0
   ammoNum: 0
   sound: {fileID: 8300000, guid: 38d996c522a3ab54383b4ebf4afbb307, type: 3}
-  maxAmmo: 0
+  maxAmmo: 40
   ammoForce: 0
   ammoHarm: 0
   ammoDestroyPower: 0

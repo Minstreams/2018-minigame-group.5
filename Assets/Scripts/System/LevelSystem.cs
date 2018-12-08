@@ -117,7 +117,7 @@ namespace GameSystem
                 if (Input.GetMouseButtonUp(0)) drag = false;
                 if (drag)
                 {
-                    Debug.Log("Mouse pos" + Input.mousePosition);
+                    //Debug.Log("Mouse pos" + Input.mousePosition);
                     x = Input.GetAxis("Mouse X") * Setting.viewDragSensitivity;
                     y = Input.GetAxis("Mouse Y") * Setting.viewDragSensitivity;
                 }
