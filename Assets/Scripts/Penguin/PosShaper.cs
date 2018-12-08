@@ -158,7 +158,7 @@ public class PosShaper : NetworkBehaviour
                 //ru.rigidbody.velocity = root.velocity;
                 //ru.rigidbody.angularVelocity *= 1 - powRate;
             }
-            Debug.Log(root.velocity);
+            //Debug.Log(root.velocity);
             //root.angularVelocity = Vector3.zero;
         }
     }
