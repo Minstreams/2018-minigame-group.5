@@ -9,8 +9,10 @@ namespace GameSystem
         [CreateAssetMenu(fileName = "PublicDataSystemSetting", menuName = "系统配置文件/PublicData System Setting")]
         public class PublicDataSystemSetting : ScriptableObject
         {
-            public AudioClip pickUp;
-            public AudioClip runOutOfAmmo;
+            public UserData userData;
+            public List<Sprite> headImages;
+            public List<Color> headColors;
+            public List<Color> bodyColors;
         }
     }
 }

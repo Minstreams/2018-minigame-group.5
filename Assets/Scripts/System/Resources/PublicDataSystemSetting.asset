@@ -11,5 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a7c5be818977944baf496a4d16b0b9, type: 3}
   m_Name: PublicDataSystemSetting
   m_EditorClassIdentifier: 
-  pickUp: {fileID: 0}
-  runOutOfAmmo: {fileID: 0}
+  userData: {fileID: 11400000, guid: e0cf8d315349cec48b99143f24dcceda, type: 2}
+  headImages:
+  - {fileID: 21300006, guid: 9500be85bd0958249b4bdc5ccaf4e350, type: 3}
+  - {fileID: 21300030, guid: 9500be85bd0958249b4bdc5ccaf4e350, type: 3}
+  - {fileID: 21300002, guid: 675a63d2a82a45b4f9b5d9b729c753d4, type: 3}
+  headColors:
+  - {r: 0.1792453, g: 0.078631185, b: 0.078631185, a: 1}
+  - {r: 0.5188679, g: 0.05139729, b: 0.05139729, a: 1}
+  - {r: 0.09220363, g: 0.29179594, b: 0.5283019, a: 1}
+  - {r: 0.6226415, g: 0.6195441, b: 0.14391243, a: 1}
+  - {r: 0.745283, g: 0.45789516, b: 0.13710396, a: 1}
+  bodyColors:
+  - {r: 0.41963333, g: 0.7735849, b: 0.74751127, a: 1}
+  - {r: 0.374466, g: 0.8018868, b: 0.5933692, a: 1}
+  - {r: 0.7924528, g: 0.34015664, b: 0.34015664, a: 1}
+  - {r: 0.7169812, g: 0.7143335, b: 0.3077608, a: 1}
+  - {r: 0.6713648, g: 0.8584906, b: 0.31181023, a: 1}

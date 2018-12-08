@@ -1098,7 +1098,8 @@ AudioSource:
   m_GameObject: {fileID: 1819038416927894}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243483770343662660, guid: 71f08355269f22645a544eb628e93cf1,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1336,6 +1337,8 @@ MonoBehaviour:
   flipRate: 0.932
   crawlRate: 0.96
   standRate: 0.974
+  penguin: {fileID: 13400000, guid: 3b97b9139d828664d89e8652538ce041, type: 2}
+  penguinBrake: {fileID: 13400000, guid: 951c2810c7d82eb4bac53e52eec9fe28, type: 2}
   drag: 1
 --- !u!114 &114395408599587854
 MonoBehaviour:

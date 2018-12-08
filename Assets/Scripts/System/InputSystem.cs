@@ -10,6 +10,12 @@ namespace GameSystem
     /// </summary>
     public class InputSystem : SubSystem<InputSystemSetting>
     {
+        public static float horizontal { private get; set; }
+        public static float vertical { private get; set; }
+        public static bool slide { private get; set; }
+        public static bool brake { private get; set; }
+        public static bool func { private get; set; }
+        public static bool drop { private get; set; }
 
 
         public static bool GetInput(InputCode code)
@@ -17,13 +23,20 @@ namespace GameSystem
             switch (code)
             {
                 case InputCode.Brake:
-                    return Input.GetKey(Setting.brakeKeyCode);
+                    return brake;
+                //return Input.GetKey(Setting.brakeKeyCode);
                 case InputCode.Slide:
-                    return Input.GetKey(Setting.slideKeyCode);
+                    return slide;
+                //return Input.GetKey(Setting.slideKeyCode);
                 case InputCode.Func:
-                    return Input.GetKey(Setting.funcKeyCode);
+                    return func;
                 case InputCode.Drop:
-                    return Input.GetKeyDown(Setting.dropKeyCode);
+                    if (drop)
+                    {
+                        drop = false;
+                        return true;
+                    }
+                    return false;
                 default:
                     return false;
             }
@@ -31,12 +44,12 @@ namespace GameSystem
 
         public static float GetHorizontalAxis()
         {
-			return VirtualInput.horizontal;
+            return horizontal;
         }
 
         public static float GetVeticalAxis()
         {
-			return VirtualInput.vertical;
+            return vertical;
         }
     }
 

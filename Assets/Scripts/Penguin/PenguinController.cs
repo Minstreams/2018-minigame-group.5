@@ -50,13 +50,14 @@ public class PenguinController : HarmSystem.HitTarget
     [Command]
     private void CmdSetCurrentState(PenguinState penguinState)
     {
-        RpcSetCurrentState(penguinState);
-    }
-    [ClientRpc]
-    private void RpcSetCurrentState(PenguinState penguinState)
-    {
+        //RpcSetCurrentState(penguinState);
         _currentState = penguinState;
     }
+    //[ClientRpc]
+    //private void RpcSetCurrentState(PenguinState penguinState)
+    //{
+        
+    //}
 
     //引用
     public Transform hips;  //bone root

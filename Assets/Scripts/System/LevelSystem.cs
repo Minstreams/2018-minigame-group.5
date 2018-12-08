@@ -100,6 +100,7 @@ namespace GameSystem
             GameObject.Destroy(camPoint);
         }
         private static LinkedListNode<Coroutine> dragCoroutine = null;
+        private static bool drag = false;
         private static IEnumerator DragView()
         {
             while (true)
@@ -107,8 +108,11 @@ namespace GameSystem
                 yield return 0;
                 float x = 0;
                 float y = 0;
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0) && (Input.mousePosition.x > 500 || Input.mousePosition.y > 500)) drag = true;
+                if (Input.GetMouseButtonUp(0)) drag = false;
+                if (drag)
                 {
+                    Debug.Log("Mouse pos" + Input.mousePosition);
                     x = Input.GetAxis("Mouse X") * Setting.viewDragSensitivity;
                     y = Input.GetAxis("Mouse Y") * Setting.viewDragSensitivity;
                 }
@@ -134,8 +138,8 @@ namespace GameSystem
         {
             Debug.Log("StartNewLevel[playerNum:" + PlayerList.Count + "]");
             //TODO:加载场景
-            MyNetworkManager.singleton.ServerChangeScene(GetNextScene());
             foreach (PenguinController p in PlayerList) p.RpcReborn(GetNextStartPoint());
+            MyNetworkManager.singleton.ServerChangeScene(GetNextScene());
 
         }
 

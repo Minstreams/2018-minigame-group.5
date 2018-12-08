@@ -48,7 +48,7 @@ public class ItemModel : MonoBehaviour
             }
             else if (NetworkSystem.IsServer)
             {
-                penguin.OnServerHarm(new HarmSystem.HarmInformation(item.item.force, item.item.harm, item.item.destroyPower, -collision.impulse.normalized, collision.contacts[0].point));
+                penguin.OnServerHarm(new HarmSystem.HarmInformation(item.item.force, item.item.harm, item.item.destroyPower, GetComponent<Rigidbody>().velocity.normalized, collision.contacts[0].point));
                 StopRock();
             }
         }

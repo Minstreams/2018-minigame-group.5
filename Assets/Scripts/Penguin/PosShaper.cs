@@ -30,6 +30,8 @@ public class PosShaper : NetworkBehaviour
     public float flipRate = 0.932f;
     public float crawlRate = 0.96f;
     public float standRate = 0.974f;
+    public PhysicMaterial penguin;
+    public PhysicMaterial penguinBrake;
 
     public float drag = 1;
     [ContextMenu("Record")]
@@ -67,6 +69,13 @@ public class PosShaper : NetworkBehaviour
         rEuler.x = rEuler.z = 0;
         yRot = Quaternion.Euler(rEuler);
         targetRot = yRot * rootHeadUpRot;
+        root.drag = 1;
+        root.GetComponent<Collider>().material = penguinBrake;
+        foreach (RecordUnit ru in units)
+        {
+            ru.rigidbody.drag = drag;
+            ru.rigidbody.GetComponent<Collider>().material = penguinBrake;
+        }
         if (flip)
         {
             StartCoroutine(Flip());
@@ -81,9 +90,12 @@ public class PosShaper : NetworkBehaviour
     [ContextMenu("EndShape"), ClientRpc]
     public void RpcEndShape()
     {
+        root.drag = 0;
+        root.GetComponent<Collider>().material = penguin;
         foreach (RecordUnit ru in units)
         {
             ru.rigidbody.drag = 0;
+            ru.rigidbody.GetComponent<Collider>().material = penguin;
         }
         StopAllCoroutines();
     }
@@ -120,10 +132,6 @@ public class PosShaper : NetworkBehaviour
 
     private IEnumerator Stand()
     {
-        foreach (RecordUnit ru in units)
-        {
-            ru.rigidbody.drag = drag;
-        }
         rate = crawlRate;
         float timer = 0;
         while (timer < standTime)
@@ -142,6 +150,7 @@ public class PosShaper : NetworkBehaviour
             float powRate = Mathf.Pow(rate, 1 / Time.deltaTime);
 
             root.MoveRotation(Quaternion.Slerp(root.rotation, targetRot, powRate));
+            //root.AddForce(yRot * new Vector3(0, 2.5f, -1.5f), ForceMode.Acceleration);
             foreach (RecordUnit ru in units)
             {
                 //ru.rigidbody.transform.position = (Vector3.Lerp(ru.rigidbody.position, root.position + targetRot * ru.localPosition, powRate));
@@ -149,6 +158,7 @@ public class PosShaper : NetworkBehaviour
                 //ru.rigidbody.velocity = root.velocity;
                 //ru.rigidbody.angularVelocity *= 1 - powRate;
             }
+            Debug.Log(root.velocity);
             //root.angularVelocity = Vector3.zero;
         }
     }
