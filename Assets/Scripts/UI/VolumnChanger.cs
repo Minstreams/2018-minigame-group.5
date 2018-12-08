@@ -19,8 +19,8 @@ public class VolumnChanger : MonoBehaviour
     private void Start()
     {
         if (!isAlone) return;
-        mixer.SetFloat("SoundV", PublicDateSystem.Data.userData.soundVolume * 40 - 80);
-        mixer.SetFloat("MusicV", PublicDateSystem.Data.userData.musicVolume * 40 - 80);
+        mixer.SetFloat("SoundV", PublicDateSystem.Data.userData.soundVolume * 10 - 20);
+        mixer.SetFloat("MusicV", PublicDateSystem.Data.userData.musicVolume * 10 - 20);
     }
 
     private void OnEnable()
@@ -39,12 +39,12 @@ public class VolumnChanger : MonoBehaviour
     {
         PublicDateSystem.Data.userData.soundVolume = v;
         PublicDateSystem.Data.userData.saved = false;
-        mixer.SetFloat("SoundV", v * 40 - 80);
+        mixer.SetFloat("SoundV", v * 10 - 20);
     }
     public void ChangeMusic(int v)
     {
         PublicDateSystem.Data.userData.musicVolume = v;
         PublicDateSystem.Data.userData.saved = false;
-        mixer.SetFloat("MusicV", v * 40 - 80);
+        mixer.SetFloat("MusicV", v * 10 - 20);
     }
 }
