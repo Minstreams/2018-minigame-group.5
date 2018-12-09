@@ -52,7 +52,7 @@ Shader "Shader Forge/Cloud" {
             #include "UnityPBSLighting.cginc"
             #include "UnityStandardBRDF.cginc"
             #pragma multi_compile_fwdbase
-            #pragma only_renderers d3d9 d3d11 glcore gles 
+            #pragma only_renderers d3d9 glcore gles3 
             #pragma target 3.0
             uniform sampler2D _MainTex; uniform float4 _MainTex_ST;
             uniform float4 _Color;
@@ -91,8 +91,8 @@ Shader "Shader Forge/Cloud" {
                 float3 viewReflectDirection = reflect( -viewDirection, normalDirection );
 ////// Lighting:
 ////// Emissive:
-                float4 node_8138 = _Time;
-                float2 node_2044 = frac((i.uv0+node_8138.g*float2(0.03,0)));
+                float4 node_9167 = _Time;
+                float2 node_2044 = frac((i.uv0+node_9167.g*float2(0.03,0)));
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(node_2044, _MainTex));
                 float3 node_1086 = (_MainTex_var.rgb*_Color.rgb*i.vertexColor.rgb); // RGB
                 float3 emissive = (node_1086*node_1086);
@@ -120,7 +120,7 @@ Shader "Shader Forge/Cloud" {
             #include "UnityStandardBRDF.cginc"
             #pragma fragmentoption ARB_precision_hint_fastest
             #pragma multi_compile_shadowcaster
-            #pragma only_renderers d3d9 d3d11 glcore gles 
+            #pragma only_renderers d3d9 glcore gles3 
             #pragma target 3.0
             struct VertexInput {
                 float4 vertex : POSITION;
