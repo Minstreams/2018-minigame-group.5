@@ -1551,6 +1551,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 1108479878471202, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
   m_IsPrefabAsset: 0
@@ -1780,6 +1784,10 @@ Prefab:
     - target: {fileID: 1108479878471202, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
       propertyPath: m_Name
       value: Bridge (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1108479878471202, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
@@ -2653,11 +2661,6 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 91072155}
-    - target: {fileID: 224875119791552576, guid: 5d499d0424eb2474aa2387fb1a56146f,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.0000030912854
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d499d0424eb2474aa2387fb1a56146f, type: 2}
   m_IsPrefabAsset: 0
@@ -4576,7 +4579,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1108479878471202, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4273569083818238, guid: 2cdb3092efca3da4290abf0a877b1a54, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z

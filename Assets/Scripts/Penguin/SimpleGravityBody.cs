@@ -13,7 +13,7 @@ public class SimpleGravityBody : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!collision.collider.CompareTag("Player") && !collision.collider.CompareTag("Item"))
+        if (/*!collision.collider.CompareTag("Player")&&*/ !collision.collider.CompareTag("Item"))
         {
             for (int i = 0; i < collision.contacts.Length; i++)
             {
